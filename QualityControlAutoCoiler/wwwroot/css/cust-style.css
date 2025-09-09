@@ -1,0 +1,264 @@
+﻿.navbar {
+    background: #fff;
+    box-shadow: 5px 5px 5px rgb(0 0 0 / 10%);
+}
+
+.bgs-btns button {
+    margin-bottom: 22px !important;
+}
+
+#orderdetailgrid .dx-datagrid-header-panel {
+    position: absolute;
+    margin-top: -43px;
+    right: 0;
+}
+
+.usr-pic {
+    float: left;
+    width: 15%;
+}
+
+.usr-detail {
+    float: left;
+    margin-left: 1em;
+    position: relative;
+    align-self: flex-end;
+}
+
+    .usr-detail h4 span {
+        display: block;
+        font-size: 0.875em !important;
+        font-weight: normal;
+    }
+
+    .usr-detail h4 {
+        font-weight: bold;
+        color: #444;
+        font-size: 1.2em;
+        letter-spacing: -0.5px;
+    }
+
+.usr-det {
+    display: flex;
+    margin-bottom: 1.5em;
+    border-bottom: 1px solid #bbb;
+    padding-bottom: 0.5em;
+}
+
+.dsh-li {
+    border-left: 4px solid #009DA0;
+    display: flex;
+    align-items: center;
+}
+
+.dsh-li-left img {
+    width: 100%;
+}
+
+.dsh-li-right p span {
+    color: #B5B5C2;
+    font-weight: bold;
+}
+
+.dsh-li-right p {
+    font-size: 10px;
+    margin: 0;
+    line-height: 1.2;
+    color: #3F4254;
+    font-weight: 500;
+}
+
+.dsh-li-right h5 {
+    font-size: 12px;
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #3F4254;
+}
+
+.dsh-li-left {
+    width: 10%;
+}
+
+.dsh-li-right {
+    margin-left: 9px;
+    width: 70%;
+}
+
+.dsh-status {
+    width: 30%;
+}
+
+    .dsh-status span {
+        font-size: 10px;
+    }
+
+.dsh-li.dsh-li1 {
+    border-color: #FF586B;
+}
+
+.dsh-li.dsh-li2 {
+    border-color: #0CC27E;
+}
+
+
+
+.pic-holder {
+    text-align: center;
+    position: relative;
+    border-radius: 50%;
+    width: 150px;
+    height: 150px;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+    .pic-holder .pic {
+        height: 100%;
+        width: 100%;
+        -o-object-fit: cover;
+        object-fit: cover;
+        -o-object-position: center;
+        object-position: center;
+    }
+
+    .pic-holder .upload-file-block,
+    .pic-holder .upload-loader {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 100%;
+        width: 100%;
+        background-color: rgba(90, 92, 105, 0.7);
+        color: #f8f9fc;
+        font-size: 12px;
+        font-weight: 600;
+        opacity: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.2s;
+    }
+
+    .pic-holder .upload-file-block {
+        cursor: pointer;
+    }
+
+    .pic-holder:hover .upload-file-block {
+        opacity: 1;
+    }
+
+    .pic-holder.uploadInProgress .upload-file-block {
+        display: none;
+    }
+
+    .pic-holder.uploadInProgress .upload-loader {
+        opacity: 1;
+    }
+
+/* Snackbar css */
+.snackbar {
+    visibility: hidden;
+    min-width: 250px;
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    border-radius: 2px;
+    padding: 16px;
+    position: fixed;
+    z-index: 1;
+    left: 50%;
+    bottom: 30px;
+    font-size: 14px;
+    transform: translateX(-50%);
+}
+
+.card.dsh-deli .card-content {
+    height: 486px;
+    overflow-y: auto;
+}
+
+.ch-usr-col .card {
+    height: 370px;
+}
+
+.snackbar.show {
+    visibility: visible;
+    -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+    animation: fadein 0.5s, fadeout 0.5s 2.5s;
+}
+
+#chkdiv {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.custom-checkbox label {
+    font-size: 14px;
+    letter-spacing: 0.5px;
+    line-height: 1.65;
+}
+
+@-webkit-keyframes fadein {
+    from {
+        bottom: 0;
+        opacity: 0;
+    }
+
+    to {
+        bottom: 30px;
+        opacity: 1;
+    }
+}
+
+@keyframes fadein {
+    from {
+        bottom: 0;
+        opacity: 0;
+    }
+
+    to {
+        bottom: 30px;
+        opacity: 1;
+    }
+}
+
+@-webkit-keyframes fadeout {
+    from {
+        bottom: 30px;
+        opacity: 1;
+    }
+
+    to {
+        bottom: 0;
+        opacity: 0;
+    }
+}
+
+@keyframes fadeout {
+    from {
+        bottom: 30px;
+        opacity: 1;
+    }
+
+    to {
+        bottom: 0;
+        opacity: 0;
+    }
+}
+
+.card-header {
+    border-bottom: 1px solid #d3dce9 !important;
+    padding: 1rem 1.5rem !important;
+}
+
+.ct-chk {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    border: 1px solid #A6A9AE;
+    height: 35px;
+    border-radius: 3px;
+}

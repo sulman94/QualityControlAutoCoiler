@@ -1,0 +1,93 @@
+﻿@model Entities.ViewModels.PermissionTemplateViewModel
+@{
+    ViewData["Title"] = "Create Role";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="main-content">
+    <div class="content-wrapper">
+        <div class="row d-flex align-items-center pt-3">
+            <div class="col-sm-12 col-md-6">
+                <div class="content-header m-0">Create Role Template</div>
+                <p class="content-sub-header m-0">Role based permissions</p>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-content">
+                <div class="card-body">
+                    <div class="px-3">
+                        <div class="form-body pt-3">
+                            <div class="row">
+                                <div class="col-md-3 col-sm-12">
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.TemplateName, htmlAttributes: new { @class = "control-label" })
+                                        @Html.EditorFor(model => model.TemplateName, new { htmlAttributes = new { @class = "form-control", @maxlength = "15", @minlength = "3" } })
+                                        @Html.ValidationMessageFor(model => model.TemplateName, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="col-md-2 d-flex align-items-center">
+                                    <div class="custom-checkbox custom-control-inline ml-3">
+                                        <input type="checkbox" id="IsActive" class="custom-control-input" name="IsActive" value="true" checked>
+                                        <label class="custom-control-label" for="IsActive">IsActive</label><br>
+                                    </div>
+                                </div>
+                                <div class="col-md-3 col-sm-12 mt-3">
+                                    <div class="form-group">
+                                    <button id="Permission" type="button" class="btn btn-outline-success m-0" onclick="ConfirmSavePermissionTemplate()"><i class="fa fa-plus-circle"></i>Add Role</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-content">
+                    <div class="card-body">
+                        <table class="table table-striped table-bordered w-100" Id="PermissionGrid">
+                            <thead>
+                                @{
+                                    var FunctionCount = Model.permissionTemplates.GroupBy(x => x.ModuleId).Select(t => new { count = t.Count() });
+                                    <tr>
+                                        <th align="left">Modules</th>
+                                        <th align="left" colspan="@FunctionCount.Max(row => row.count)">Functionality</th>
+                                    </tr>
+                                }
+                            </thead>
+                            <tbody id="tbodyid">
+                                @{
+                                    var modules = Model.permissionTemplates.GroupBy(x => new { x.ModuleId, x.ModuleDisplayName }).OrderByDescending(x => x.Count());
+                                    @foreach (var module in modules)
+                                    {
+                                        <tr>
+                                            <td style='border: 1px solid #C0C0C0 !important;'>
+                                                @module.Key.ModuleDisplayName
+                                                <input type="text" id="@module.Key.ModuleId" value="@module.Key.ModuleId" hidden />
+                                            </td>
+                                            @foreach (var item in module)
+                                            {
+                                                <td style='border: 1px solid #C0C0C0 !important;'>
+                                                    <div class="kt-checkbox-inline">
+                                                        <label class="kt-checkbox kt-checkbox--bold kt-checkbox--brand mb-0">
+                                                            <input type="checkbox" id="@item.FunctionalityName" name="@item.FunctionalityName" value="@item.FunctionalityId" checked="@item.IsAllow">
+                                                            <span></span>@item.FunctionalityName
+                                                        </label>
+                                                    </div>
+                                                </td>
+                                            }
+                                        </tr>
+                                    }
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @section Scripts {
+        <partial name="_ValidationScriptsPartial" />
+        <partial name="_ScriptSweetAlert" />
+        <script src="~/Scripts/CommonJS.js"></script>
+        <script src="~/Scripts/ManageRoles.js"></script>
+    }

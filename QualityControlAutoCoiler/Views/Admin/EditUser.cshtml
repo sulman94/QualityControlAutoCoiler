@@ -1,0 +1,107 @@
+﻿@model Entities.ViewModels.AppUser
+@{
+    ViewData["Title"] = "Edit User";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<!-- BEGIN : Main Content-->
+<div class="main-content">
+    <div class="content-wrapper">
+        <!--Registration Page Starts-->
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="content-header">Edit User</div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-content">
+                        <div class="card-body register-img">
+                            <form class="form" id="FrmEditUser" method="post">
+                                <div class="form-body">
+                                    <div class="usr-det">
+                                        <div class="usr-pic">
+                                            <div class="profile-pic-wrapper">
+                                                <div class="pic-holder">
+                                                    <!-- uploaded pic shown here -->
+                                                    <img id="profilePic" class="pic" src=@Model.ProfileImage>
+
+                                                    <label for="newProfilePhoto" class="upload-file-block mb-0">
+                                                        <div class="text-center">
+                                                            <div class="mb-2">
+                                                                <i class="fa fa-camera fa-2x"></i>
+                                                            </div>
+                                                            <div class="text-uppercase">
+                                                                Update <br /> Profile Photo
+                                                            </div>
+                                                        </div>
+                                                    </label>
+                                                    <Input class="uploadProfileInput" type="file" name="profile_pic" id="newProfilePhoto" accept="image/*" style="display: none;" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="usr-detail">
+                                            @Html.HiddenFor(x => x.UserId)
+                                            <h4>@Model.FirstName @Model.LastName <span>@Model.UserName</span></h4>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-3 col-sm-12">
+                                            <div class="form-group">
+                                                <label>Select Role</label>
+                                                @Html.DropDownList("RoleTemplateID", (IEnumerable<SelectListItem>)ViewBag.Templates, "Please select Role", new { @class = "form-control" })
+                                                @Html.ValidationMessageFor(model => model.RoleTemplateID, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="form-group col-md-6 col-sm-12 mb-2">
+                                            @Html.LabelFor(model => model.FirstName, htmlAttributes: new { @class = "control-label" })
+                                            @Html.EditorFor(model => model.FirstName, new { htmlAttributes = new { @class = "form-control", @maxlength = "200", @minlength = "4" } })
+                                            @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger" })
+                                        </div>
+                                        <div class="form-group col-md-6 col-sm-12 mb-2">
+                                            @Html.LabelFor(model => model.LastName, htmlAttributes: new { @class = "control-label" })
+                                            @Html.EditorFor(model => model.LastName, new { htmlAttributes = new { @class = "form-control", @maxlength = "200", @minlength = "4" } })
+                                            @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="form-group col-md-6 col-sm-12 mb-2">
+                                            @Html.LabelFor(model => model.UserName, htmlAttributes: new { @class = "control-label" })
+                                            @Html.EditorFor(model => model.UserName, new { htmlAttributes = new { @class = "form-control", @maxlength = "50", @minlength = "4" } })
+                                            @Html.ValidationMessageFor(model => model.UserName, "", new { @class = "text-danger" })
+                                        </div>
+                                        <div class="form-group col-md-6 col-sm-12 mb-2">
+                                            @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label" })
+                                            @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control", @maxlength = "200", @minlength = "4" } })
+                                            @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="form-actions right">
+                                    <button type="button" class="btn btn-raised btn-warning mr-1" onclick="window.location.href='/Admin/AllUsers'">
+                                        <i class="ft-x"></i> Cancel
+                                    </button>
+                                    <button type="button" class="btn btn-raised btn-primary" onclick="UpdateUser()">
+                                        <i class="fa fa-check-square-o"></i> Update
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--Registration Page Ends-->
+    </div>
+</div>
+<!-- END : End Main Content-->
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <partial name="_ScriptSweetAlert" />
+    <script src="~/Scripts/CommonJS.js"></script>
+    <script src="~/Scripts/EditUser.js"></script>
+}

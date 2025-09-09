@@ -1,0 +1,132 @@
+﻿@{
+    ViewData["Title"] = "Add Machines";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="main-content">
+    <div class="content-wrapper">
+        <div class="row d-flex align-items-center pt-3">
+            <div class="col-sm-12 col-md-6">
+                <div class="content-header m-0">ALL Machines</div>
+                <p class="content-sub-header m-0">List of all the Machines</p>
+            </div>
+            <div class="col-sm-12 col-md-6 text-right">
+                <button id="AddMachine" type="button" class="btn btn-outline-success m-0" onclick="AddMachine()"><i class="fa fa-plus-circle"></i> Add Machine</button>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-content">
+                <div class="card-body">
+                    <table class="table table-striped table-bordered w-100" Id="tblMachine">
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--Add Machine Modal-->
+<div class="modal fade text-left" id="AddMachineModal" tabindex="-1" role="dialog" aria-labelledby="MachineModalTitle"
+     aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-success white">
+                <h4 class="modal-title" id="MachineModalTitle">Add Machine Details</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form class="form" id="frmAddMachineDetail">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <label><b>Machine Name : </b></label>
+                            <div class="form-group">
+                                <input type="text" id="Name" name="Name" class="form-control" required>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <label><b>Machine Name (Urdu): </b></label>
+                            <div class="form-group">
+                                <input type="text" id="NameInUrdu" name="NameInUrdu" class="form-control" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="col-md-4 d-flex align-items-center">
+                                <div class="custom-checkbox custom-control-inline ml-3">
+                                    <input type="checkbox" id="IsActive" class="custom-control-input" name="IsActive" value="true" checked>
+                                    <label class="custom-control-label" for="IsActive">IsActive</label><br>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn grey btn-outline-secondary" data-dismiss="modal">Close</button>
+                <button id="MachineModalBtn" type="button" class="btn btn-outline-success" onclick="SaveMachineDetail()">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--Edit Machine Modal-->
+<div class="modal fade text-left" id="EditMachineModal" tabindex="-1" role="dialog" aria-labelledby="MachineModalTitle"
+     aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-success white">
+                <h4 class="modal-title" id="MachineModalTitle">Edit Machine Details</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form class="form" id="frmUpdateMachineDetail">
+                    <input id="evId" name="Id" type="hidden" value="" />
+                    <input id="evCreatedBy" name="CreatedBy" type="hidden" value="" />
+                    <input id="evCreatedDate" name="CreatedDate" type="hidden" value="" />
+                    <div class="row">
+                        <div class="col-md-4">
+                            <label><b>Machine Name : </b></label>
+                            <div class="form-group">
+                                <input type="text" id="evName" name="Name" class="form-control" required>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <label><b>Machine Name (Urdu): </b></label>
+                            <div class="form-group">
+                                <input type="text" id="evNameInUrdu" name="NameInUrdu" class="form-control" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="col-md-4 d-flex align-items-center">
+                                <div class="custom-checkbox custom-control-inline ml-3">
+                                    <input type="checkbox" id="evIsActive" class="custom-control-input" name="IsActive" value="true" checked>
+                                    <label class="custom-control-label" for="evIsActive">IsActive</label><br>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn grey btn-outline-secondary" data-dismiss="modal">Close</button>
+                <button id="MachineModalBtn" type="button" class="btn btn-outline-success" onclick="UpdateMachineDetail()">Update changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <partial name="_ScriptDataTable" />
+    <partial name="_ScriptSweetAlert" />
+    <script src="~/Scripts/CommonJS.js"></script>
+    <script src="~/Scripts/Machines.js"></script>
+
+}

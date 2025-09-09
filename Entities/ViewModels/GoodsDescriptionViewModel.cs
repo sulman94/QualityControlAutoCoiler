@@ -1,0 +1,18 @@
+﻿using System;
+
+namespace Entities.ViewModels
+{
+    public class GoodsDescriptionViewModel
+    {
+        public int Id { get; set; }
+        public string Description { get; set; }
+        public string NameUR { get; set; }
+        public bool IsActive { get; set; }
+        public string CreatedBy { get; set; }
+        public string UpdatedBy { get; set; }
+        public long CreatedById { get; set; }
+        public long? UpdatedById { get; set; }
+        public DateTime CreatedDate { get; set; }
+        public DateTime? UpdatedDate { get; set; }
+    }
+}

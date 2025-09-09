@@ -1,0 +1,6 @@
+﻿@inject Microsoft.Extensions.Configuration.IConfiguration Configuration
+@{
+    Layout = "_Layout";
+    ViewData["ProjectName"] = Configuration["AppSetting:ProjectName"];
+    ViewData["ProjectShortName"] = Configuration["AppSetting:ProjectShortName"];
+}
