@@ -1,8 +1,7 @@
-﻿using Entities.ViewModels;
+﻿using QualityControlAutoCoiler.ConfigurationRepositories;
 using System;
-using System.Collections.Generic;
 
-namespace QualityControlAutoCoiler.ConfigurationRepositories;
+namespace Entities.ViewModels;
 
 public partial class ProductionLog
 {
@@ -36,7 +35,7 @@ public partial class ProductionLog
 
     public string Reason { get; set; }
 
-    public long CreatedBy { get; set; }
+    public long? CreatedBy { get; set; }
 
     public DateTime? CreatedDate { get; set; }
 
@@ -44,11 +43,11 @@ public partial class ProductionLog
 
     public long? ApprovedBy { get; set; }
 
-    public virtual AppUser ApprovedByNavigation { get; set; }
+    //public virtual AppUser ApprovedByNavigation { get; set; }
 
-    public virtual Color Color { get; set; }
+    //public virtual Color Color { get; set; }
 
-    public virtual AppUser CreatedByNavigation { get; set; }
+    //public virtual AppUser CreatedByNavigation { get; set; }
 
-    public virtual SizeCategory Size { get; set; }
+    //public virtual SizeCategory Size { get; set; }
 }

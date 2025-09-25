@@ -1,8 +1,8 @@
 ﻿using Entities.Models;
+using Entities.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using QualityControlAutoCoiler.ConfigurationRepositories;
 
 #nullable disable
 
@@ -118,24 +118,24 @@ namespace Services.Models
                 entity.Property(e => e.Reason).HasMaxLength(255);
                 entity.Property(e => e.Remarks).HasMaxLength(255);
 
-                entity.HasOne(d => d.ApprovedByNavigation).WithMany(p => p.ProductionLogApprovedByNavigations)
-                    .HasForeignKey(d => d.ApprovedBy)
-                    .HasConstraintName("FK_ProductionLogs_Approved_AspNetUsers");
+                //entity.HasOne(d => d.ApprovedByNavigation).WithMany(p => p.ProductionLogApprovedByNavigations)
+                //    .HasForeignKey(d => d.ApprovedBy)
+                //    .HasConstraintName("FK_ProductionLogs_Approved_AspNetUsers");
 
-                entity.HasOne(d => d.Color).WithMany(p => p.ProductionLogs)
-                    .HasForeignKey(d => d.ColorId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_ProductionLogs_Colors");
+                //entity.HasOne(d => d.Color).WithMany(p => p.ProductionLogs)
+                //    .HasForeignKey(d => d.ColorId)
+                //    .OnDelete(DeleteBehavior.ClientSetNull)
+                //    .HasConstraintName("FK_ProductionLogs_Colors");
 
-                entity.HasOne(d => d.CreatedByNavigation).WithMany(p => p.ProductionLogCreatedByNavigations)
-                    .HasForeignKey(d => d.CreatedBy)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_ProductionLogs_Created_AspNetUsers");
+                //entity.HasOne(d => d.CreatedByNavigation).WithMany(p => p.ProductionLogCreatedByNavigations)
+                //    .HasForeignKey(d => d.CreatedBy)
+                //    .OnDelete(DeleteBehavior.ClientSetNull)
+                //    .HasConstraintName("FK_ProductionLogs_Created_AspNetUsers");
 
-                entity.HasOne(d => d.Size).WithMany(p => p.ProductionLogs)
-                    .HasForeignKey(d => d.SizeId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_ProductionLogs_SizeCategory");
+                //entity.HasOne(d => d.Size).WithMany(p => p.ProductionLogs)
+                //    .HasForeignKey(d => d.SizeId)
+                //    .OnDelete(DeleteBehavior.ClientSetNull)
+                //    .HasConstraintName("FK_ProductionLogs_SizeCategory");
             });
 
             modelBuilder.Entity<ApplicationFunctionality>(entity =>

@@ -37,7 +37,5 @@ namespace Entities.ViewModels
         public DateTime? CreatedDate { get; set; }
         public long? UpdatedBy { get; set; }
         public DateTime? UpdatedDate { get; set; }
-        public virtual ICollection<ProductionLog> ProductionLogApprovedByNavigations { get; set; } = new List<ProductionLog>();
-        public virtual ICollection<ProductionLog> ProductionLogCreatedByNavigations { get; set; } = new List<ProductionLog>();
     }
 }

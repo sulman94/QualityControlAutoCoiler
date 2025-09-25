@@ -7,6 +7,7 @@ using Services.Interfaces;
 using Services.Models;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Services.Services
@@ -15,14 +16,25 @@ namespace Services.Services
     {
         private readonly IConfiguration _config;
         private readonly UserManager<QualityControlAutoCoilerUser> _userManager;
-        private readonly QualityControlAutoCoilerContext context;
+        private readonly QualityControlAutoCoilerContext _context;
         public AdminServices(QualityControlAutoCoilerContext dbcontext, UserManager<QualityControlAutoCoilerUser> userManager, IConfiguration config)
         {
             _config = config;
             _userManager = userManager;
-            context = dbcontext;
+            _context = dbcontext;
         }
-
+        public async Task<GenericServiceResponse<List<DropdownLongModel>>> UsersDropdownCall(bool isLoading = true)
+        {
+            try
+            {
+                var result = await _context.Users.Where(x => x.Status == 1).Select(x => new DropdownLongModel { Id = x.Id, Value = x.FirstName }).ToListAsync();
+                return new GenericServiceResponse<List<DropdownLongModel>>() { Status = true, message = "All Users", Data = result };
+            }
+            catch (Exception ex)
+            {
+                return new GenericServiceResponse<List<DropdownLongModel>>() { Status = false, message = ex.Message, Data = null };
+            }
+        }
 
         public async Task<GenericServiceResponse<AppUser>> CreateUser(AppUser user)
         {
@@ -149,12 +161,12 @@ namespace Services.Services
         {
             try
             {
-                var xUser = await context.Users.FirstOrDefaultAsync(x => x.Id == userId);
+                var xUser = await _context.Users.FirstOrDefaultAsync(x => x.Id == userId);
                 if (xUser != null)
                 {
                     xUser.Status = xUser.Status == 1 ? 0 : 1;
-                    context.Users.Update(xUser);
-                    await context.SaveChangesAsync();
+                    _context.Users.Update(xUser);
+                    await _context.SaveChangesAsync();
                     return new GenericServiceResponse<bool>() { Status = true, message = "User status updated successfully", Data = true };
 
                 }
@@ -173,7 +185,7 @@ namespace Services.Services
         {
             try
             {
-                var xUser = await context.Users.FirstOrDefaultAsync(x => x.Id == userId);
+                var xUser = await _context.Users.FirstOrDefaultAsync(x => x.Id == userId);
                 if (xUser != null)
                 {
                     await _userManager.RemovePasswordAsync(xUser);

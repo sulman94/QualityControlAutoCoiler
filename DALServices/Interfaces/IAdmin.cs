@@ -7,14 +7,12 @@ namespace Services.Interfaces
 {
     public interface IAdmin
     {
+        Task<GenericServiceResponse<List<DropdownLongModel>>> UsersDropdownCall(bool isLoading = true);
         Task<GenericServiceResponse<AppUser>> CreateUser(AppUser user);
         Task<GenericServiceResponse<AppUser>> UpdateUser(AppUser user);
         Task<GenericServiceResponse<AppUser>> GetUserDetailById(long userId);
         Task<GenericServiceResponse<List<AppUser>>> GetAllUsers();
         Task<GenericServiceResponse<bool>> UpdateUserStatus(long userId);
         Task<GenericServiceResponse<bool>> ResetPassword(long userId);
-
-
-
     }
 }

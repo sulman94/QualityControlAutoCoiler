@@ -111,6 +111,7 @@ namespace ProjectX
             services.AddScoped<IMachines, MachineServices>();
             services.AddScoped<IColors, ColorServices>();
             services.AddScoped<ISizeCategory, SizeCategoryServices>();
+            services.AddScoped<IAutoCoiler, AutoCoilerServices>();
             services.AddControllersWithViews().AddRazorRuntimeCompilation();
         }
 
