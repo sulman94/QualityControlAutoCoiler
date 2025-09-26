@@ -31,26 +31,46 @@ namespace Services.Services
             }
         }
 
-        public async Task<GenericServiceResponse<List<SizeCategoryViewModel>>> GetAllSizeCategoryDetails()
+        public async Task<GenericServiceResponse<List<ProductionLogsViewModel>>> GetAllProductionLogs()
         {
             try
             {
-                var result = await (from o in _context.SizeCategories
+                var result = await (from o in _context.ProductionLogs
                                     join u in _context.Users on o.CreatedBy equals u.Id
-                                    select new SizeCategoryViewModel
+                                    join c in _context.Colors on o.ColorId equals c.Id
+                                    join m in _context.Machines on o.MachineId equals m.Id
+                                    join s in _context.SizeCategories on o.SizeId equals s.Id
+                                    select new ProductionLogsViewModel
                                     {
                                         Id = o.Id,
-                                        Size = o.Size,
-                                        IsActive = o.IsActive,
+                                        SizeId = o.SizeId,
+                                        ApprovedBy = o.ApprovedBy,
                                         CreatedDate = o.CreatedDate,
+                                        ApprovedDate = o.ApprovedDate,
+                                        Bp = o.Bp,
+                                        ColorId = o.ColorId,
+                                        DrumNumber = o.DrumNumber,
+                                        DrumWiseScrap = o.DrumWiseScrap,
+                                        GoodCoils = o.GoodCoils,
+                                        LengthMentioned = o.LengthMentioned,
+                                        LengthRecovered = o.LengthRecovered,
+                                        MachineId = o.MachineId,
+                                        Np = o.Np,
+                                        Reason = o.Reason,
+                                        Remarks = o.Remarks,
+                                        ShortLengthCoils = o.ShortLengthCoils,
+                                        ShortLengthMeters = o.ShortLengthMeters,
                                         CreatedBy = u.FirstName + " " + u.LastName,
-                                        CreatedById = o.CreatedBy
+                                        CreatedById = o.CreatedBy,
+                                        Size = s.Size,
+                                        Color = c.ColorName + " | " + c.ColorNameInUrdu,
+                                        MachineName = m.Name + " | " + m.NameInUrdu
                                     }).ToListAsync();
-                return new GenericServiceResponse<List<SizeCategoryViewModel>>() { Status = true, message = "All SizeCategorys", Data = result };
+                return new GenericServiceResponse<List<ProductionLogsViewModel>>() { Status = true, message = "All Product Logs", Data = result };
             }
             catch (Exception ex)
             {
-                return new GenericServiceResponse<List<SizeCategoryViewModel>>() { Status = false, message = ex.Message, Data = null };
+                return new GenericServiceResponse<List<ProductionLogsViewModel>>() { Status = false, message = ex.Message, Data = null };
             }
         }
 

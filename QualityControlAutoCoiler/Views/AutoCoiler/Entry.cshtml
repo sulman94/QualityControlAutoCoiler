@@ -1,0 +1,195 @@
+﻿@model Entities.ViewModels.ProductionLog
+@{
+    ViewData["Title"] = "AutoColier Entry";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<!-- BEGIN : Main Content-->
+<div class="main-content">
+    <div class="content-wrapper">
+        <!-- Basic form layout section start -->
+        <div class="card mt-4">
+            <div class="card-content">
+                <form class="form" id="frmCreateAutoCoilerEntry">
+                    <div class="card-header pb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-4 col-sm-12">
+                                <h5 class="font-weight-bold m-0">AutoCoiler Production Entry</h5>
+                            </div>
+                            <div class="col-md-4 col-sm-12">
+                            </div>
+                            <div class="col-md-4 col-sm-12">
+                                @Html.HiddenFor(model => model.CreatedBy)
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.CreatedDate, htmlAttributes: new { @class = "control-label" })
+                                    <input type="date" name="CreatedDate" id="CreatedDate" class="form-control pickadate" value="" />
+                                    @Html.ValidationMessageFor(model => model.CreatedDate, "", new { @class = "text-danger" })
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="px-3">
+                        <div class="form-body pt-3">
+                            <div class="row">
+                                <div class="col-md-4 col-sm-12">
+                                    <div class="form-group">
+                                        <label>Select Machine</label>
+                                        @Html.DropDownList("MachineId", (IEnumerable<SelectListItem>)ViewBag.allMachines, "Please Select Machine", new { @class = "form-control", @onchange = "OnchangeConsignment(this.value)" })
+                                        @Html.ValidationMessageFor(model => model.MachineId, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="col-md-4 col-sm-12">
+                                    <div class="form-group">
+                                        <label>Select Color</label>
+                                        @Html.DropDownList("ColorId", (IEnumerable<SelectListItem>)ViewBag.allColors, "Please Select Color", new { @class = "form-control", @onchange = "OnchangeConsignment(this.value)" })
+                                        @Html.ValidationMessageFor(model => model.ColorId, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="col-md-4 col-sm-12">
+                                    <div class="form-group">
+                                        <label>Select Size</label>
+                                        @Html.DropDownList("SizeId", (IEnumerable<SelectListItem>)ViewBag.allSizes, "Please Select Size", new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(model => model.SizeId, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                            </div>
+                           
+                            <div class="row">
+                                <div class="col-md-4 col-sm-12">
+                                    <div class="form-group">
+                                        @* @Html.LabelFor(model => model.DrumNumber, htmlAttributes: new { @class = "control-label" }) *@
+                                        <label>Drum #</label>
+                                        @Html.EditorFor(model => model.DrumNumber, new { htmlAttributes = new { @class = "form-control", @maxlength = "15", @minlength = "2" } })
+                                        @Html.ValidationMessageFor(model => model.DrumNumber, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="col-md-4 col-sm-12">
+                                    <div class="form-group">
+                                       @* @Html.LabelFor(model => model.LengthMentioned, htmlAttributes: new { @class = "control-label" }) *@
+                                        <label>Length Mentioned on Drum</label>
+                                        @Html.EditorFor(model => model.LengthMentioned, new { htmlAttributes = new { @class = "form-control", @onchange = "CalculateDifference()", @maxlength = "15", @minlength = "2" } })
+                                        @Html.ValidationMessageFor(model => model.LengthMentioned, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="col-md-4 col-sm-12">
+                                    <div class="form-group">
+                                        @* @Html.LabelFor(model => model.GoodCoils, htmlAttributes: new { @class = "control-label" }) *@
+                                        <label>Good Coils - x 90</label>
+                                        @Html.EditorFor(model => model.GoodCoils, new { htmlAttributes = new { @class = "form-control", @onchange = "CalculateLengthRecovered()" } })
+                                        @Html.ValidationMessageFor(model => model.GoodCoils, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4 col-sm-12">
+                                    <div class="form-group">
+                                        <label>BP</label>
+                                        @Html.EditorFor(model => model.Bp, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.Bp, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="col-md-4 col-sm-12">
+                                    <div class="form-group">
+                                        <label>NP</label>
+                                        @Html.EditorFor(model => model.Np, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.Np, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="col-md-4 col-sm-12">
+                                    <div class="form-group">
+                                        <label>Short length meters</label>
+                                        @Html.EditorFor(model => model.ShortLengthMeters, new { htmlAttributes = new { @class = "form-control", @onchange = "CalculateLengthRecovered()" } })
+                                        @Html.ValidationMessageFor(model => model.ShortLengthMeters, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4 col-sm-12">
+                                    <div class="form-group">
+                                        <label>Short length coils</label>
+                                        @Html.EditorFor(model => model.ShortLengthCoils, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.ShortLengthCoils, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="col-md-4 col-sm-12">
+                                    <div class="form-group">
+                                        <label>Drum wise scrap (m)</label>
+                                        @Html.EditorFor(model => model.DrumWiseScrap, new { htmlAttributes = new { @class = "form-control", @onchange = "CalculateLengthRecovered()" } })
+                                        @Html.ValidationMessageFor(model => model.DrumWiseScrap, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="col-md-4 col-sm-12">
+                                    <div class="form-group">
+                                        <label>Length Recovered</label>
+                                        <div class="form-group">
+                                            <input type="text" id="LengthRecovered" name="LengthRecovered" class="form-control" placeholder="" onchange=CalculateDifference(); readonly>
+                                        </div>
+                                       @*  @Html.EditorFor(model => model.LengthRecovered, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.LengthRecovered, "", new { @class = "text-danger" }) *@
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12 col-sm-12">
+                                    <div class="form-group">
+                                        <label>Remarks</label>
+                                        <div class="form-group">
+                                            <textarea id="Remarks" name="Remarks" class="form-control" rows="3"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 col-sm-12">
+                                    <div class="form-group">
+                                        <label>Difference</label>
+                                        <div class="form-group">
+                                            <input type="text" id="Difference" name="Difference" class="form-control" placeholder="" readonly>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-sm-12">
+                                    <div class="form-group">
+                                        <label>Difference %</label>
+                                        <div class="form-group">
+                                            <input type="text" id="DifferencePercentage" name="DifferencePercentage" class="form-control" placeholder="" readonly>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12 col-sm-12">
+                                    <div class="form-group">
+                                        <label>Reason</label>
+                                        <div class="form-group">
+                                            <textarea id="Reason" name="Reason" class="form-control" rows="3"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                    </div>
+                    <div class="form-actions text-right px-4">
+                        <button type="button" onclick="window.location.href='/AutoCoiler/Index'" class="btn btn-raised btn-raised btn-warning mr-1">
+                            <i class="ft-x"></i> Cancel
+                        </button>
+                        <button type="button" class="btn btn-raised btn-raised btn-primary" onclick="SaveEntry()">
+                            <i class="fa fa-check-square-o"></i> Save
+                        </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+    </div>
+</div>
+<!-- END : End Main Content-->
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <partial name="_ScriptDatePicker" />
+    <partial name="_ScriptSweetAlert" />
+    <script src="~/Scripts/CreateAutoCoilerEntry.js"></script>
+}

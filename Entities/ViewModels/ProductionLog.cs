@@ -1,5 +1,4 @@
-﻿using QualityControlAutoCoiler.ConfigurationRepositories;
-using System;
+﻿using System;
 
 namespace Entities.ViewModels;
 

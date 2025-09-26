@@ -72,7 +72,7 @@ namespace Services.Services
         {
             try
             {
-                var result = await _context.Machines.Where(x => x.IsActive == true).Select(x => new DropdownModel { Id = x.Id, Value = x.Name }).ToListAsync();
+                var result = await _context.Machines.Where(x => x.IsActive == true).Select(x => new DropdownModel { Id = x.Id, Value = x.Name + " | " + x.NameInUrdu }).ToListAsync();
                 return new GenericServiceResponse<List<DropdownModel>>() { Status = true, message = "All Machines", Data = result };
             }
             catch (Exception ex)

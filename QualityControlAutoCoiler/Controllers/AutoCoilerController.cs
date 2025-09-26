@@ -30,7 +30,30 @@ namespace ProjectX.Controllers
             _sizeCategory = sizeCategory;
         }
         [CheckSessionAndUserPermission]
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
+        {
+            return View();
+        }
+
+        [CheckSessionExpiry]
+        [HttpGet]
+        public async Task<JsonResult> GetAllProductionLogs()
+        {
+            GenericServiceResponse<List<ProductionLogsViewModel>> serviceResponse = new GenericServiceResponse<List<ProductionLogsViewModel>>();
+            serviceResponse = await _autoCoiler.GetAllProductionLogs();
+            if (serviceResponse.Status)
+            {
+                return new JsonResult(new { success = serviceResponse.Status, serviceResponse.message, serviceResponse.Data });
+
+            }
+            else
+            {
+                return new JsonResult(new { success = serviceResponse.Status, serviceResponse.message, serviceResponse.Data });
+            }
+        }
+
+        [CheckSessionAndUserPermission]
+        public async Task<IActionResult> Entry()
         {
             await SetBiltyDropdowns();
             return View();
@@ -40,8 +63,8 @@ namespace ProjectX.Controllers
         {
             if (ModelState.IsValid)
             {
-            model.CreatedBy = this.GetUserId;
-                model.CreatedDate = DateTime.Now;
+                model.CreatedBy = this.GetUserId;
+                //model.CreatedDate = DateTime.Now;
                 GenericServiceResponse<ProductionLog> serviceResponse = new GenericServiceResponse<ProductionLog>();
                 serviceResponse = await _autoCoiler.AddAutoCoilerEntry(model);
                 if (serviceResponse.Status)
