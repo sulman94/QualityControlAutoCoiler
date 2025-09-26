@@ -47,3 +47,22 @@ function SaveEntry() {
 
     }
 }
+
+function CalculateLengthRecovered() {
+    var GoodCoils = parseFloat($('#GoodCoils').val()) || 0;
+    var ShortLengthMeters = parseFloat($('#ShortLengthMeters').val()) || 0;
+    var DrumWiseScrap = parseFloat($('#DrumWiseScrap').val()) || 0;
+
+    var LengthRecovered = (GoodCoils * 90) + ShortLengthMeters + DrumWiseScrap;
+
+    $('#LengthRecovered').val(LengthRecovered).trigger('change');
+}
+
+function CalculateDifference() {
+    var LengthMentioned = parseFloat($('#LengthMentioned').val()) || 0;
+    var LengthRecovered = parseFloat($('#LengthRecovered').val()) || 0;
+    var Difference = LengthMentioned - LengthRecovered;
+
+    $('#Difference').val(Difference);
+    $('#DifferencePercentage').val(((Difference / LengthMentioned) * 100).toFixed(2));
+}

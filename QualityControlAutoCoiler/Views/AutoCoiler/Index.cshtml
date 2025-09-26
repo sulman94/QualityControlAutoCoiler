@@ -25,10 +25,6 @@
                                     @Html.ValidationMessageFor(model => model.CreatedDate, "", new { @class = "text-danger" })
 
                                 </div>
-                                @* <div class="d-flex align-items-center justify-content-end badge badge-primary pull-right">
-                                    <p class="m-0">SERIAL NO:</p>
-                                    <span Id="SerialNo" class="bg-light text-dark ml-2" style="border-radius: 4px; padding: 8px 8px 5px 8px;">@Model.SerialNo</span>
-                                </div> *@
                             </div>
                         </div>
                     </div>
@@ -36,20 +32,6 @@
 
                     <div class="px-3">
                         <div class="form-body pt-3">
-                            @* <div class="row">
-                                <div class="col-md-4 col-sm-12">
-                                </div>
-                                <div class="col-md-4 col-sm-12">
-                                </div>
-                                <div class="col-md-4 col-sm-12">
-                                    <div class="form-group">
-                                        @Html.LabelFor(model => model.CreatedDate, htmlAttributes: new { @class = "control-label" })
-                                        <input type="date" name="EntryDate" id="EntryDate" class="form-control pickadate" value="" />
-                                        @Html.ValidationMessageFor(model => model.CreatedDate, "", new { @class = "text-danger" })
-
-                                    </div>
-                                </div>
-                                </div> *@
                             <div class="row">
                                 <div class="col-md-4 col-sm-12">
                                     <div class="form-group">
@@ -88,7 +70,7 @@
                                     <div class="form-group">
                                        @* @Html.LabelFor(model => model.LengthMentioned, htmlAttributes: new { @class = "control-label" }) *@
                                         <label>Length Mentioned on Drum</label>
-                                       @Html.EditorFor(model => model.LengthMentioned, new { htmlAttributes = new { @class = "form-control", @maxlength = "15", @minlength = "2" } })
+                                        @Html.EditorFor(model => model.LengthMentioned, new { htmlAttributes = new { @class = "form-control", @onchange = "CalculateDifference()", @maxlength = "15", @minlength = "2" } })
                                         @Html.ValidationMessageFor(model => model.LengthMentioned, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
@@ -96,7 +78,7 @@
                                     <div class="form-group">
                                         @* @Html.LabelFor(model => model.GoodCoils, htmlAttributes: new { @class = "control-label" }) *@
                                         <label>Good Coils - x 90</label>
-                                        @Html.EditorFor(model => model.GoodCoils, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.EditorFor(model => model.GoodCoils, new { htmlAttributes = new { @class = "form-control", @onchange = "CalculateLengthRecovered()" } })
                                         @Html.ValidationMessageFor(model => model.GoodCoils, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
@@ -119,7 +101,7 @@
                                 <div class="col-md-4 col-sm-12">
                                     <div class="form-group">
                                         <label>Short length meters</label>
-                                        @Html.EditorFor(model => model.ShortLengthMeters, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.EditorFor(model => model.ShortLengthMeters, new { htmlAttributes = new { @class = "form-control", @onchange = "CalculateLengthRecovered()" } })
                                         @Html.ValidationMessageFor(model => model.ShortLengthMeters, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
@@ -135,15 +117,18 @@
                                 <div class="col-md-4 col-sm-12">
                                     <div class="form-group">
                                         <label>Drum wise scrap (m)</label>
-                                        @Html.EditorFor(model => model.DrumWiseScrap, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.EditorFor(model => model.DrumWiseScrap, new { htmlAttributes = new { @class = "form-control", @onchange = "CalculateLengthRecovered()" } })
                                         @Html.ValidationMessageFor(model => model.DrumWiseScrap, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
                                 <div class="col-md-4 col-sm-12">
                                     <div class="form-group">
                                         <label>Length Recovered</label>
-                                        @Html.EditorFor(model => model.LengthRecovered, new { htmlAttributes = new { @class = "form-control" } })
-                                        @Html.ValidationMessageFor(model => model.LengthRecovered, "", new { @class = "text-danger" })
+                                        <div class="form-group">
+                                            <input type="text" id="LengthRecovered" name="LengthRecovered" class="form-control" placeholder="" onchange=CalculateDifference(); readonly>
+                                        </div>
+                                       @*  @Html.EditorFor(model => model.LengthRecovered, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.LengthRecovered, "", new { @class = "text-danger" }) *@
                                     </div>
                                 </div>
                             </div>
