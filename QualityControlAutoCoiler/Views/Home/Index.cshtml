@@ -1,10 +1,72 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿@using Entities.ViewModels
+@model DashboardSearchParams
+
+@{
+    ViewData["Title"] = "Dashboard";
 }
+@* <link rel="stylesheet" type="text/css" href="~/app-assets/vendors/css/chartist.min.css"> *@
+<link rel="stylesheet" type="text/css" href="~/app-assets/fonts/simple-line-icons/style.css">
 
 <!-- BEGIN : Main Content-->
 <div class="main-content">
     <div class="content-wrapper">
+        <div class="row">
+            <div class="col-sm-12 col-md-12">
+                <form class="form" id="frmPieCharts">
+
+                    <div class="row">
+                        <div class="col-md-3 col-sm-12">
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.StartDate, htmlAttributes: new { @class = "control-label" })
+                                <input type="date" name="SourceStartDate" id="SourceStartDate" class="form-control pickadate" value="" />
+                                @Html.ValidationMessageFor(model => model.StartDate, "", new { @class = "text-danger" })
+
+                            </div>
+                        </div>
+                        <div class="col-md-2 col-sm-12">
+                            <div class="form-group">
+                                @Html.LabelFor(Model => Model.StartTime, htmlAttributes: new { @class = "control-label" })
+                                <div class="position-relative has-icon-left">
+                                    <input type="time" id="StartTime" class="form-control" name="StartTime">
+                                    <div class="form-control-position">
+                                        <i class="ft-clock"></i>
+                                    </div>
+                                </div>
+                                @Html.ValidationMessageFor(model => model.StartTime, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-sm-12">
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.EndDate, htmlAttributes: new { @class = "control-label" })
+                                <input type="date" name="SourceEndDate" id="SourceEndDate" class="form-control pickadate" value="" />
+                                @Html.ValidationMessageFor(model => model.EndDate, "", new { @class = "text-danger" })
+
+                            </div>
+                        </div>
+                        <div class="col-md-2 col-sm-12">
+                            <div class="form-group">
+                                @Html.LabelFor(Model => Model.EndTime, htmlAttributes: new { @class = "control-label" })
+                                <div class="position-relative has-icon-left">
+                                    <input type="time" id="EndTime" class="form-control" name="EndTime">
+                                    <div class="form-control-position">
+                                        <i class="ft-clock"></i>
+                                    </div>
+                                </div>
+                                @Html.ValidationMessageFor(model => model.EndTime, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="col-md-2 col-sm-12">
+                            <div class="form-group">
+                                <br />
+                                <button type="button" class="btn btn-lg btn-primary" onclick="GetCharts()">
+                                    <i class="fa fa-check-square-o"></i> Search
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                </div>
+                </div>
         <div class="row">
             <div class="col-xl-3 col-lg-6 col-md-6 col-12">
                 <div class="card bg-primary">
@@ -12,15 +74,13 @@
                         <div class="card-body pt-2 pb-0">
                             <div class="media">
                                 <div class="media-body white text-left">
-                                    <h3 class="font-large-1 mb-0">$15,678</h3>
-                                    <span>Total Cost</span>
+                                    <h3 id="TotalTrips" class="font-large-1 mb-0">0</h3>
+                                    <span><b>Total Drums Processed</b></span>
                                 </div>
                                 <div class="media-right white text-right">
                                     <i class="icon-bulb font-large-1"></i>
                                 </div>
                             </div>
-                        </div>
-                        <div id="Widget-line-chart" class="height-75 WidgetlineChart WidgetlineChartShadow mb-3">
                         </div>
                     </div>
                 </div>
@@ -31,15 +91,13 @@
                         <div class="card-body pt-2 pb-0">
                             <div class="media">
                                 <div class="media-body white text-left">
-                                    <h3 class="font-large-1 mb-0">$2156</h3>
-                                    <span>Total Tax</span>
+                                    <h3 id="TotalAdvance" class="font-large-1 mb-0">0</h3>
+                                    <span><b>Total Length Mentioned</b></span>
                                 </div>
                                 <div class="media-right white text-right">
                                     <i class="icon-pie-chart font-large-1"></i>
                                 </div>
                             </div>
-                        </div>
-                        <div id="Widget-line-chart2" class="height-75 WidgetlineChart WidgetlineChartShadow mb-3">
                         </div>
                     </div>
                 </div>
@@ -51,15 +109,13 @@
                         <div class="card-body pt-2 pb-0">
                             <div class="media">
                                 <div class="media-body white text-left">
-                                    <h3 class="font-large-1 mb-0">$45,668</h3>
-                                    <span>Total Sales</span>
+                                    <h3 id="TotalDiesel" class="font-large-1 mb-0">0</h3>
+                                    <span>Total Length Recovered</span>
                                 </div>
                                 <div class="media-right white text-right">
                                     <i class="icon-graph font-large-1"></i>
                                 </div>
                             </div>
-                        </div>
-                        <div id="Widget-line-chart3" class="height-75 WidgetlineChart WidgetlineChartShadow mb-3">
                         </div>
                     </div>
                 </div>
@@ -70,26 +126,1098 @@
                         <div class="card-body pt-2 pb-0">
                             <div class="media">
                                 <div class="media-body white text-left">
-                                    <h3 class="font-large-1 mb-0">$32,454</h3>
-                                    <span>Total Earning</span>
+                                    <h3 id="TotalBags" class="font-large-1 mb-0">0</h3>
+                                    <span>Total Difference</span>
                                 </div>
                                 <div class="media-right white text-right">
                                     <i class="icon-wallet font-large-1"></i>
                                 </div>
                             </div>
                         </div>
-                        <div id="Widget-line-chart4" class="height-75 WidgetlineChart WidgetlineChartShadow mb-3">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+          
+            <div class="col-xl-3 col-lg-6 col-md-6 col-12">
+                <div class="card bg-indigo">
+                    <div class="card-content">
+                        <div class="card-body pt-2 pb-0">
+                            <div class="media">
+                                <div class="media-body white text-left">
+                                    <h3 id="TotalWeight" class="font-large-1 mb-0">0</h3>
+                                    <span>Total Scrap (m)</span>
+                                </div>
+                                <div class="media-right white text-right">
+                                    <i class="icon-wallet font-large-1"></i>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>     
-
-    </div>
+    
+          
+        </div>
 </div>
-<!-- END : End Main Content-->
+</div>
+
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
-    <script src="~/Scripts/Dashboard.js"></script>
+    <script src="~/js/datatables.min.js" type="text/javascript"></script>
+    <script src="~/app-assets/vendors/js/chartist.min.js" type="text/javascript"></script>
+    <script src="~/app-assets/vendors/js/chart.min.js" type="text/javascript"></script>
+    <script src="~/Business/Scripts/CommonJS.js"></script>
+    @* <script src="~/Business/Scripts/SearchHistory.js"></script> *@
+@*     <script>
+        var LineGraph;
+        var SourcePeakDemandLineGraph;
+        var SourceEnergyPieChart;
+        var DistributionEnergyPieChart;
 
+        var SourceEnergyData = [];
+        var SourceEnergyLabels = [];
+        var SourceEnergyColors = [];
+        var DestinationEnergyData = [];
+        var DestinationEnergyLabels = [];
+        var DestinationEnergyColors = [];
+        function GetSourceDistributionEnergyPieChart(formData) {
+            if (formData == undefined) {
+                formData = new FormData();
+                // formData.append("StartDate", $("#SourceStartDate").val());
+                // formData.append("EndDate", $("#SourceEndDate").val());
+            }
+
+            // document.getElementById("TPieChart").style.display = "block";
+            // document.getElementById("TPieChartDiv").style.display = "block";
+            $.ajax({
+                type: "POST",
+                data: formData,
+                processData: false,
+                contentType: false,
+                url: "/Home/GetSourceEnergyPieChart",
+                beforeSend: function () {
+                    LoaderDisable = true;
+                },
+                success: function (data) {
+                    // document.getElementById("TPieChart").style.display = "none";
+                    // document.getElementById("TPieChartDiv").style.display = "none";
+                    if (data.ListPieChart.length == 0) {
+                        //document.getElementById("ErrorRowAppRatingPie").style.display = "flex";
+                    }
+                    else {
+                        SourceEnergyData = [];
+                        SourceEnergyLabels = [];
+                        SourceEnergyColors = [];
+                        TotalSum = data.TotalSum;
+                        for (var i = 0; i < data.ListPieChart.length; i++) {
+                            SourceEnergyLabels.push(data.ListPieChart[i].Label);
+                            SourceEnergyData.push(data.ListPieChart[i].Values);
+                            // SourceEnergyColors.push(data.ListPieChart[i].Color);
+                        }
+
+                         $('#TotalKWHPieChartSource').text("Total KWH: " + TotalSum);
+                        //Get the context of the Chart canvas element we want to select
+                        var ctx = $("#sourceLast24Hrs");
+
+                        // Chart Options
+                        var chartOptions = {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            responsiveAnimationDuration: 500,
+                            plugins: {
+                                datalabels: {
+                                    color: '#fff', // Label text color
+                                    display: true, // Display labels
+                                    formatter: function (value) {
+                                        return value + '%'; // Format label text
+                                    }
+                                }
+                            }
+                        };
+
+                        // Chart Data
+                        var chartData = {
+                            labels: SourceEnergyLabels,
+                            datasets: [{
+                                label: "Source Energy",
+                                data: SourceEnergyData,
+                                backgroundColor: ['#41980a', '#FDB813', '#A020F0', '#964b00'],
+                            }]
+                        };
+
+                        var config = {
+                            type: 'pie',
+
+                            // Chart Options
+                            options: chartOptions,
+
+                            data: chartData,
+                            plugins: [SourceEnergyLabels]
+                        };
+                        if (SourceEnergyPieChart != undefined) {
+                            SourceEnergyPieChart.destroy();
+                        }
+                        // Create the chart
+                        SourceEnergyPieChart = new Chart(ctx, config);
+                        //  refreshPieChart();
+                    }
+                },
+                error: function (ex) {
+                }
+            });
+            $.ajax({
+                type: "POST",
+                data: formData,
+                processData: false,
+                contentType: false,
+                url: "/Home/GetDistributionEnergyPieChart",
+                beforeSend: function () {
+                    LoaderDisable = true;
+                },
+                success: function (data) {
+                    // document.getElementById("TPieChart").style.display = "none";
+                    // document.getElementById("TPieChartDiv").style.display = "none";
+                    if (data.ListPieChart.length == 0) {
+                        //document.getElementById("ErrorRowAppRatingPie").style.display = "flex";
+                    }
+                    else {
+                        DestinationEnergyData = [];
+                        DestinationEnergyLabels = [];
+                        DestinationEnergyColors = [];
+                        TotalSum = data.TotalSum;
+
+                        for (var i = 0; i < data.ListPieChart.length; i++) {
+                            DestinationEnergyLabels.push(data.ListPieChart[i].Label);
+                            DestinationEnergyData.push(data.ListPieChart[i].Values);
+                            // SourceEnergyColors.push(data.ListPieChart[i].Color);
+                        }
+                        
+                        $('#TotalKWHPieChartDistribution').text("Total KWH: " + TotalSum);
+
+                        //Get the context of the Chart canvas element we want to select
+                        var ctx1 = $("#distributionLast24Hrs");
+
+                        // Chart Options
+                        var chartOptions1 = {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            responsiveAnimationDuration: 500,
+                            plugins: {
+                                datalabels: {
+                                    color: '#fff', // Label text color
+                                    display: true, // Display labels
+                                    formatter: function (value) {
+                                        return value + '%'; // Format label text
+                                    }
+                                }
+                            }
+                        };
+
+                        // Chart Data
+                        var chartData1 = {
+                            labels: DestinationEnergyLabels,
+                            datasets: [{
+                                label: "Distribution Energy",
+                                data: DestinationEnergyData,
+                                // backgroundColor: ['#00A5A8', '#626E82', '#FF7D4D', '#FF4558', '#16D39A'],
+                                backgroundColor: ['#1f77b4', '#ff7f0e', '#2ca02c', '#d62728', '#9467bd', '#8c564b', '#e377c2', '#7f7f7f', '#bcbd22', '#17becf']
+                            }]
+                        };
+
+                        var config1 = {
+                            type: 'pie',
+
+                            // Chart Options
+                            options: chartOptions1,
+
+                            data: chartData1,
+                            plugins: [DestinationEnergyLabels]
+                        };
+
+                        if (DistributionEnergyPieChart != undefined) {
+                            DistributionEnergyPieChart.destroy();
+                        }
+
+                        // Create the chart
+                        DistributionEnergyPieChart = new Chart(ctx1, config1);
+                    }
+                },
+                error: function (ex) {
+                }
+            });
+        }
+        function GetLineGraph(formData) {
+            debugger;
+            if (formData == undefined) {
+                formData = new FormData();
+            }
+            formData.append("MeterId", 7);
+            // formData.append("StartDate", $("#SourceStartDate").val());
+            // formData.append("EndDate", $("#SourceEndDate").val());
+            // document.getElementById("TPieChart").style.display = "block";
+            // document.getElementById("TPieChartDiv").style.display = "block";
+            $.ajax({
+                type: "POST",
+                data: formData,
+                processData: false,
+                contentType: false,
+                url: "/Home/GetEnergyLineChartById",
+                beforeSend: function () {
+                    LoaderDisable = true;
+                },
+                success: function (data) {
+                    // document.getElementById("TPieChart").style.display = "none";
+                    // document.getElementById("TPieChartDiv").style.display = "none";
+                    var LineChartLabels = [];
+                    var VoltageData = [];
+                    var LowVoltageData = [];
+                    var CurrentData = [];
+                    var PFData = [];
+                    var KWData = [];
+                    if (data.LineChart.length == 0) {
+                        //document.getElementById("ErrorRowAppRatingPie").style.display = "flex";
+                    }
+                    else {
+                        
+                        for (var i = 0; i < data.LineChart.length; i++) {
+                            VoltageData.push(data.LineChart[i].Voltage);
+                            LowVoltageData.push(data.LineChart[i].LowVoltage);
+                            CurrentData.push(data.LineChart[i].Current);
+                            PFData.push(data.LineChart[i].PF);
+                            KWData.push(data.LineChart[i].KW);
+                            LineChartLabels.push(data.LineChart[i].StartTime);
+                        }
+
+                        // //Get the context of the Chart canvas element we want to select
+                        // var ctx = $("#line-chart");
+
+                        // // Chart Options
+                        // var chartOptions = {
+                        //     responsive: true,
+                        //     maintainAspectRatio: false,
+                        //     legend: {
+                        //         position: 'top',
+                        //     },
+                        //     hover: {
+                        //         mode: 'label'
+                        //     },
+                        //     scales: {
+                        //         xAxes: [{
+                        //             display: true,
+                        //             gridLines: {
+                        //                 color: "#f3f3f3",
+                        //                 drawTicks: false,
+                        //             },
+                        //             scaleLabel: {
+                        //                 display: true,
+                        //                 labelString: 'Tenor'
+                        //             }
+                        //         }],
+                        //         yAxes: [{
+                        //             display: true,
+                        //             gridLines: {
+                        //                 color: "#f3f3f3",
+                        //                 drawTicks: false,
+                        //             },
+                        //             scaleLabel: {
+                        //                 display: true,
+                        //                 labelString: 'Scale'
+                        //             }
+                        //         }]
+                        //     },
+                        //     title: {
+                        //         display: true,
+                        //         text: 'Energy Analyzer - Current (A), Voltage (KV), PF, KW'
+                        //     }
+                        // };
+
+                        // // Chart Data
+                        // var chartData = {
+                        //     labels: LineChartLabels,
+                        //     datasets: [{
+                        //         label: "Voltage",
+                        //         data: VoltageData,
+                        //         fill: false,
+                        //         borderDash: [5, 5],
+                        //         borderColor: "#9C27B0",
+                        //         pointBorderColor: "#9C27B0",
+                        //         pointBackgroundColor: "#FFF",
+                        //         pointBorderWidth: 2,
+                        //         pointHoverBorderWidth: 2,
+                        //         pointRadius: 4,
+                        //     }, {
+                        //         label: "Current",
+                        //         data: CurrentData,
+                        //         fill: false,
+                        //         borderDash: [5, 5],
+                        //         borderColor: "#00A5A8",
+                        //         pointBorderColor: "#00A5A8",
+                        //         pointBackgroundColor: "#FFF",
+                        //         pointBorderWidth: 2,
+                        //         pointHoverBorderWidth: 2,
+                        //         pointRadius: 4,
+                        //     }, {
+                        //         label: "Power Factor",
+                        //         data: PFData,
+                        //         lineTension: 0,
+                        //         fill: false,
+                        //         borderColor: "#FF7D4D",
+                        //         pointBorderColor: "#FF7D4D",
+                        //         pointBackgroundColor: "#FFF",
+                        //         pointBorderWidth: 2,
+                        //         pointHoverBorderWidth: 2,
+                        //         pointRadius: 4,
+                        //     }
+                        //         , {
+                        //         label: "KW",
+                        //         data: KWData,
+                        //         lineTension: 0,
+                        //         fill: false,
+                        //         borderColor: "#964b00",
+                        //         pointBorderColor: "#964b00",
+                        //         pointBackgroundColor: "#FFF",
+                        //         pointBorderWidth: 2,
+                        //         pointHoverBorderWidth: 2,
+                        //         pointRadius: 4,
+                        //     }]
+                        // };
+
+                        // var config = {
+                        //     type: 'line',
+
+                        //     // Chart Options
+                        //     options: chartOptions,
+
+                        //     data: chartData
+                        // };
+                        // if (LineGraph != undefined) {
+                        //     LineGraph.destroy();
+                        // }
+                        // // Create the chart
+                        // LineGraph = new Chart(ctx, config);
+                        // Get the context of the Chart canvas element we want to select
+                        var ctx = $("#line-chart")[0].getContext('2d'); // Use [0] to access the DOM element and getContext
+
+                        // Chart Options
+                        var chartOptions = {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            legend: {
+                                position: 'top',
+                            },
+                            hover: {
+                                mode: 'label'
+                            },
+                            scales: {
+                                x: {
+                                    display: true,
+                                    grid: {
+                                        color: "#f3f3f3",
+                                        drawTicks: false,
+                                    },
+                                    title: {
+                                        display: true,
+                                        text: 'Tenor'
+                                    }
+                                },
+                                y: {
+                                    display: true,
+                                    grid: {
+                                        color: "#f3f3f3",
+                                        drawTicks: false,
+                                    },
+                                    title: {
+                                        display: true,
+                                        text: 'Scale'
+                                    }
+                                }
+                            },
+                            plugins: {
+                                legend: {
+                                    display: true,
+                                    position: 'top',
+                                },
+                                title: {
+                                    display: true,
+                                    text: 'Energy Analyzer - Current (A), Voltage (KV), PF, KW'
+                                }
+                            }
+                        };
+
+                        // Chart Data
+                        var chartData = {
+                            labels: LineChartLabels,
+                            datasets: [{
+                                label: "Voltage",
+                                data: VoltageData,
+                                fill: false,
+                                lineTension: 0,
+                                // borderDash: [5, 5],
+                                borderColor: "#9C27B0",
+                                pointRadius: 0, // Hide data points
+                                pointHoverRadius: 0, // Hide hover data points
+                            }, {
+                                label: "Current",
+                                data: CurrentData,
+                                fill: false,
+                                lineTension: 0,
+                                // borderDash: [5, 5],
+                                borderColor: "#00A5A8",
+                                pointRadius: 0, // Hide data points
+                                pointHoverRadius: 0, // Hide hover data points
+                            }, {
+                                label: "Power Factor",
+                                data: PFData,
+                                lineTension: 0,
+                                fill: false,
+                                borderColor: "#FF7D4D",
+                                pointRadius: 0, // Hide data points
+                                pointHoverRadius: 0, // Hide hover data points
+                            }, {
+                                label: "KW",
+                                data: KWData,
+                                lineTension: 0,
+                                fill: false,
+                                borderColor: "#964b00",
+                                pointRadius: 0, // Hide data points
+                                pointHoverRadius: 0, // Hide hover data points
+                            }]
+                        };
+
+                        var config = {
+                            type: 'line',
+                            data: chartData,
+                            options: chartOptions
+                        };
+
+                        if (LineGraph != undefined) {
+                            LineGraph.destroy();
+                        }
+
+                        // Create the chart
+                        LineGraph = new Chart(ctx, config);
+
+                    }
+                },
+                error: function (ex) {
+                }
+            });
+        }
+        function GetSourcePeakDemandLineGraph(formData) {
+            debugger;
+            if (formData == undefined) {
+                formData = new FormData();
+            }
+            // formData.append("StartDate", $("#SourceStartDate").val());
+            // formData.append("EndDate", $("#SourceEndDate").val());
+            // document.getElementById("TPieChart").style.display = "block";
+            // document.getElementById("TPieChartDiv").style.display = "block";
+            $.ajax({
+                type: "POST",
+                data: formData,
+                processData: false,
+                contentType: false,
+                url: "/Home/GetSourcePeakDemandKWEnergyLineChart",
+                beforeSend: function () {
+                    LoaderDisable = true;
+                },
+                success: function (data) {
+                    // document.getElementById("TPieChart").style.display = "none";
+                    // document.getElementById("TPieChartDiv").style.display = "none";
+                    var LineChartLabels = [];
+                    var SolarPeak = [];
+                    var HescoPeak = [];
+                    var GasPeak = [];
+                    var DieselPeak = [];
+                    if (data.LineChart.length == 0) {
+                        //document.getElementById("ErrorRowAppRatingPie").style.display = "flex";
+                    }
+                    else {
+                        for (var i = 0; i < data.LineChart.length; i++) {
+                            if (data.LineChart[i].MeterName.includes("SOLAR"))
+                                SolarPeak.push(data.LineChart[i].Demand);
+                            if (data.LineChart[i].MeterName.includes("GAS"))
+                                GasPeak.push(data.LineChart[i].Demand);
+                            if (data.LineChart[i].MeterName.includes("DIESEL"))
+                                DieselPeak.push(data.LineChart[i].Demand);
+                            else
+                                HescoPeak.push(data.LineChart[i].Demand);
+
+                            if (!LineChartLabels.includes(data.LineChart[i].StartTime)) {
+                                LineChartLabels.push(data.LineChart[i].StartTime);
+                            }
+                           // LineChartLabels.push(data.LineChart[i].StartTime);
+                        }
+
+                        //Get the context of the Chart canvas element we want to select
+                        var ctx = $("#bar-chart");
+
+                        // Chart Options
+                        var chartOptions = {
+                            // Elements options apply to all of the options unless overridden in a dataset
+                            // In this case, we are setting the border of each bar to be 2px wide and green
+                            elements: {
+                                rectangle: {
+                                    borderWidth: 2,
+                                    borderColor: 'rgb(0, 255, 0)',
+                                    borderSkipped: 'bottom'
+                                }
+                            },
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            responsiveAnimationDuration: 500,
+                            legend: {
+                                position: 'top',
+                            },
+                            scales: {
+                                xAxes: [{
+                                    display: true,
+                                    gridLines: {
+                                        color: "#f3f3f3",
+                                        drawTicks: false,
+                                    },
+                                    scaleLabel: {
+                                        display: true,
+                                    }
+                                }],
+                                yAxes: [{
+                                    display: true,
+                                    gridLines: {
+                                        color: "#f3f3f3",
+                                        drawTicks: false,
+                                    },
+                                    scaleLabel: {
+                                        display: true,
+                                    }
+                                }]
+                            },
+                            title: {
+                                display: true,
+                                text: ''
+                            }
+                        };
+
+                        // Chart Data
+                        var chartData = {
+                            labels: LineChartLabels,
+                            datasets: [{
+                                label: "SOLAR",
+                                data: SolarPeak,
+                                backgroundColor: "#e6a210",
+                                hoverBackgroundColor: "rgba(22,211,154,.9)",
+                                borderColor: "transparent"
+                            }, {
+                                label: "HESCO",
+                                data: HescoPeak,
+                                backgroundColor: "#008000",
+                                hoverBackgroundColor: "rgba(249,142,118,.9)",
+                                borderColor: "transparent"
+                            }, {
+                                label: "GAS",
+                                data: GasPeak,
+                                backgroundColor: "#A020F0",
+                                hoverBackgroundColor: "rgba(249,142,118,.9)",
+                                borderColor: "transparent"
+                            }, {
+                                label: "DIESEL",
+                                data: DieselPeak,
+                                backgroundColor: "#964B00",
+                                hoverBackgroundColor: "rgba(249,142,118,.9)",
+                                borderColor: "transparent"
+                            }]
+                        };
+
+                        var config = {
+                            type: 'bar',
+
+                            // Chart Options
+                            options: chartOptions,
+
+                            data: chartData
+                        };
+                        if (SourcePeakDemandLineGraph != undefined) {
+                            SourcePeakDemandLineGraph.destroy();
+                        }
+                        // Create the chart
+                        SourcePeakDemandLineGraph = new Chart(ctx, config);
+
+                        // var barChart = new Chartist.Bar('#bar-chart', {
+                        //     labels: LineChartLabels,
+                        //     series: [
+                        //         SolarPeak,
+                        //         HescoPeak
+                        //     ]
+                        // },
+                        //     {
+                        //         seriesBarDistance: 21,
+                        //         axisX: {
+                        //             showGrid: false, offset: 100
+                        //         },
+                        //         axisY: {
+                        //             scaleMinSpace: 30,
+                        //         }
+
+                        //     });
+
+                        // //Get the context of the Chart canvas element we want to select
+                        // var ctx = $("#sourcePeakDemandKW");
+
+                        // // Chart Options
+                        // var chartOptions = {
+                        //     responsive: true,
+                        //     maintainAspectRatio: false,
+                        //     legend: {
+                        //         position: 'top',
+                        //     },
+                        //     hover: {
+                        //         mode: 'label'
+                        //     },
+                        //     scales: {
+                        //         xAxes: [{
+                        //             display: true,
+                        //             gridLines: {
+                        //                 color: "#f3f3f3",
+                        //                 drawTicks: false,
+                        //             },
+                        //             scaleLabel: {
+                        //                 display: true,
+                        //                 labelString: 'Tenor'
+                        //             }
+                        //         }],
+                        //         yAxes: [{
+                        //             display: true,
+                        //             gridLines: {
+                        //                 color: "#f3f3f3",
+                        //                 drawTicks: false,
+                        //             },
+                        //             scaleLabel: {
+                        //                 display: true,
+                        //                 labelString: 'Scale'
+                        //             }
+                        //         }]
+                        //     },
+                            
+                        // };
+
+                        // // Chart Data
+                        // var chartData = {
+                        //     labels: LineChartLabels,
+                        //     datasets: [{
+                        //         label: "SOLAR Demand",
+                        //         data: SolarPeak,
+                        //         fill: false,
+                        //         borderDash: [5, 5],
+                        //         borderColor: "#9C27B0",
+                        //         pointBorderColor: "#9C27B0",
+                        //         pointBackgroundColor: "#FFF",
+                        //         pointBorderWidth: 2,
+                        //         pointHoverBorderWidth: 2,
+                        //         pointRadius: 4,
+                        //     }, {
+                        //         label: "HESCO Demand",
+                        //         data: HescoPeak,
+                        //         fill: false,
+                        //         borderDash: [5, 5],
+                        //         borderColor: "#00A5A8",
+                        //         pointBorderColor: "#00A5A8",
+                        //         pointBackgroundColor: "#FFF",
+                        //         pointBorderWidth: 2,
+                        //         pointHoverBorderWidth: 2,
+                        //         pointRadius: 4,
+                        //     }]
+                        // };
+
+                        // var config = {
+                        //     type: 'line',
+
+                        //     // Chart Options
+                        //     options: chartOptions,
+
+                        //     data: chartData
+                        // };
+
+                        // // Create the chart
+                        // var lineChart = new Chart(ctx, config);
+                    }
+                },
+                error: function (ex) {
+                }
+            });
+        }
+        function GetCharts(){
+            var formData = new FormData();
+            formData.append("StartDate", $("#SourceStartDate").val());
+            formData.append("EndDate", $("#SourceEndDate").val());
+            formData.append("StartTime", $("#StartTime").val());
+            formData.append("EndTime", $("#EndTime").val());
+
+            GetSourceDistributionEnergyPieChart(formData);
+            GetLineGraph(formData);
+            GetSourcePeakDemandLineGraph(formData);
+        }
+
+        $(window).on("load", function () {
+            GetSourceDistributionEnergyPieChart();
+            GetSourcePeakDemandLineGraph();
+            GetLineGraph();
+            $('#Meter').change(function () {
+                // Get the selected value
+                var selectedValue = $(this).val();
+                // Do something with the selected value
+                //alert('Selected value: ' + selectedValue);
+                GetLineGraphById(selectedValue);
+            });
+        });
+        function GetLineGraphById(meterId) {
+            var formData = new FormData();
+            formData.append("StartDate", $("#SourceStartDate").val());
+            formData.append("EndDate", $("#SourceEndDate").val());
+            formData.append("MeterId", meterId);
+            formData.append("StartTime", $("#StartTime").val());
+            formData.append("EndTime", $("#EndTime").val());
+            // formData.append("StartDate", $("#SourceStartDate").val());
+            // formData.append("EndDate", $("#SourceEndDate").val());
+            // document.getElementById("TPieChart").style.display = "block";
+            // document.getElementById("TPieChartDiv").style.display = "block";
+            $.ajax({
+                type: "POST",
+                data: formData,
+                processData: false,
+                contentType: false,
+                url: "/Home/GetEnergyLineChartById",
+                beforeSend: function () {
+                    LoaderDisable = true;
+                },
+                success: function (data) {
+                    // document.getElementById("TPieChart").style.display = "none";
+                    // document.getElementById("TPieChartDiv").style.display = "none";
+                    var LineChartLabels = [];
+                    var VoltageData = [];
+                    var LowVoltageData = [];
+                    var CurrentData = [];
+                    var PFData = [];
+                    var KWData = [];
+                    if (data.LineChart.length == 0) {
+                        //document.getElementById("ErrorRowAppRatingPie").style.display = "flex";
+                    }
+                    else {
+
+                        // for (var i = 0; i < data.LineChart.length; i++) {
+                        //     if (data.LineChart[i].MeterName.includes("SOLAR"))
+                        //         SolarPeak.push(data.LineChart[i].Demand);
+                        //     if (data.LineChart[i].MeterName.includes("GAS"))
+                        //         GasPeak.push(data.LineChart[i].Demand);
+                        //     if (data.LineChart[i].MeterName.includes("DIESEL"))
+                        //         DieselPeak.push(data.LineChart[i].Demand);
+                        //     else
+                        //         HescoPeak.push(data.LineChart[i].Demand);
+
+                        //     
+                        //     // LineChartLabels.push(data.LineChart[i].StartTime);
+                        // }
+
+                        for (var i = 0; i < data.LineChart.length; i++) {
+                            VoltageData.push(data.LineChart[i].Voltage);
+                            LowVoltageData.push(data.LineChart[i].LowVoltage);
+                            CurrentData.push(data.LineChart[i].Current);
+                            PFData.push(data.LineChart[i].PF);
+                            KWData.push(data.LineChart[i].KW);
+                            //LineChartLabels.push(data.LineChart[i].StartTime);
+                            if (!LineChartLabels.includes(data.LineChart[i].StartTime)) {
+                                LineChartLabels.push(data.LineChart[i].StartTime);
+                            }
+                        }
+
+                        // //Get the context of the Chart canvas element we want to select
+                        // var ctx = $("#line-chart");
+
+                        // // Chart Options
+                        // var chartOptions = {
+                        //     responsive: true,
+                        //     maintainAspectRatio: false,
+                        //     legend: {
+                        //         position: 'top',
+                        //     },
+                        //     hover: {
+                        //         mode: 'label'
+                        //     },
+                        //     scales: {
+                        //         xAxes: [{
+                        //             display: true,
+                        //             gridLines: {
+                        //                 color: "#f3f3f3",
+                        //                 drawTicks: false,
+                        //             },
+                        //             scaleLabel: {
+                        //                 display: true,
+                        //                 labelString: 'Tenor'
+                        //             }
+                        //         }],
+                        //         yAxes: [{
+                        //             display: true,
+                        //             gridLines: {
+                        //                 color: "#f3f3f3",
+                        //                 drawTicks: false,
+                        //             },
+                        //             scaleLabel: {
+                        //                 display: true,
+                        //                 labelString: 'Scale'
+                        //             }
+                        //         }]
+                        //     },
+                        //     title: {
+                        //         display: true,
+                        //         text: 'Energy Analyzer - Current (A), Voltage (KV), PF, KW'
+                        //     }
+                        // };
+
+                        // // Chart Data
+                        // var chartData = {
+                        //     labels: LineChartLabels,
+                        //     datasets: [{
+                        //         label: "Voltage",
+                        //         data: VoltageData,
+                        //         fill: false,
+                        //         borderDash: [5, 5],
+                        //         borderColor: "#9C27B0",
+                        //         pointBorderColor: "#9C27B0",
+                        //         pointBackgroundColor: "#FFF",
+                        //         pointBorderWidth: 2,
+                        //         pointHoverBorderWidth: 2,
+                        //         pointRadius: 4,
+                        //     }, {
+                        //         label: "Current",
+                        //         data: CurrentData,
+                        //         fill: false,
+                        //         borderDash: [5, 5],
+                        //         borderColor: "#00A5A8",
+                        //         pointBorderColor: "#00A5A8",
+                        //         pointBackgroundColor: "#FFF",
+                        //         pointBorderWidth: 2,
+                        //         pointHoverBorderWidth: 2,
+                        //         pointRadius: 4,
+                        //     }, {
+                        //         label: "Power Factor",
+                        //         data: PFData,
+                        //         lineTension: 0,
+                        //         fill: false,
+                        //         borderColor: "#FF7D4D",
+                        //         pointBorderColor: "#FF7D4D",
+                        //         pointBackgroundColor: "#FFF",
+                        //         pointBorderWidth: 2,
+                        //         pointHoverBorderWidth: 2,
+                        //         pointRadius: 4,
+                        //     }
+                        //         , {
+                        //         label: "KW",
+                        //         data: KWData,
+                        //         lineTension: 0,
+                        //         fill: false,
+                        //         borderColor: "#964b00",
+                        //         pointBorderColor: "#964b00",
+                        //         pointBackgroundColor: "#FFF",
+                        //         pointBorderWidth: 2,
+                        //         pointHoverBorderWidth: 2,
+                        //         pointRadius: 4,
+                        //     }]
+                        // };
+
+                        // var config = {
+                        //     type: 'line',
+
+                        //     // Chart Options
+                        //     options: chartOptions,
+
+                        //     data: chartData
+                        // };
+                        // if (LineGraph != undefined) {
+                        //     LineGraph.destroy();
+                        // }
+                        // // Create the chart
+                        // LineGraph = new Chart(ctx, config);
+                        // Get the context of the Chart canvas element we want to select
+                        var ctx = $("#line-chart")[0].getContext('2d'); // Use [0] to access the DOM element and getContext
+
+                        // Chart Options
+                        var chartOptions = {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            legend: {
+                                position: 'top',
+                            },
+                            hover: {
+                                mode: 'label'
+                            },
+                            scales: {
+                                x: {
+                                    display: true,
+                                    grid: {
+                                        color: "#f3f3f3",
+                                        drawTicks: false,
+                                    },
+                                    title: {
+                                        display: true,
+                                        text: 'Tenor'
+                                    }
+                                },
+                                y: {
+                                    display: true,
+                                    grid: {
+                                        color: "#f3f3f3",
+                                        drawTicks: false,
+                                    },
+                                    title: {
+                                        display: true,
+                                        text: 'Scale'
+                                    }
+                                }
+                            },
+                            plugins: {
+                                legend: {
+                                    display: true,
+                                    position: 'top',
+                                },
+                                title: {
+                                    display: true,
+                                    text: 'Energy Analyzer - Current (A), Voltage (KV), PF, KW'
+                                }
+                            }
+                        };
+
+                        // Chart Data
+                        var chartData = {
+                            labels: LineChartLabels,
+                            datasets: [{
+                                label: "Voltage",
+                                data: VoltageData,
+                                fill: false,
+                                lineTension: 0,
+                                //borderDash: [5, 5],
+                                borderColor: "#9C27B0",
+                                pointRadius: 0, // Hide data points
+                                pointHoverRadius: 0, // Hide hover data points
+                            }, {
+                                label: "Current",
+                                data: CurrentData,
+                                fill: false,
+                                lineTension: 0,
+                                //borderDash: [5, 5],
+                                borderColor: "#00A5A8",
+                                pointRadius: 0, // Hide data points
+                                pointHoverRadius: 0, // Hide hover data points
+                            }, {
+                                label: "Power Factor",
+                                data: PFData,
+                                lineTension: 0,
+                                fill: false,
+                                borderColor: "#FF7D4D",
+                                pointRadius: 0, // Hide data points
+                                pointHoverRadius: 0, // Hide hover data points
+                            }, {
+                                label: "KW",
+                                data: KWData,
+                                lineTension: 0,
+                                fill: false,
+                                borderColor: "#964b00",
+                                pointRadius: 0, // Hide data points
+                                pointHoverRadius: 0, // Hide hover data points
+                            }]
+                        };
+
+                        var config = {
+                            type: 'line',
+                            data: chartData,
+                            options: chartOptions
+                        };
+
+                        if (LineGraph != undefined) {
+                            LineGraph.destroy();
+                        }
+
+                        // Create the chart
+                        LineGraph = new Chart(ctx, config);
+
+                    }
+                },
+                error: function (ex) {
+                }
+            });
+        }
+
+        // function GetSourceDataPie() {
+
+        //     if ($("#StartDate").val() == "") {
+        //         alert("From Date not selected");
+        //     } else if ($("#EndDate").val() == "") {
+        //         alert("To Date not selected");
+        //     }
+        //     else if ($("#Meter").val() == "") {
+        //         alert("Select Meter");
+        //     }
+        //     else {
+        //         var FromDate = $("#StartDate").val();
+        //         var ToDate = $("#EndDate").val();
+        //         const TFDateSplit = FromDate.split('/');
+        //         var newfromdate = TFDateSplit[1] + "/" + TFDateSplit[0] + "/" + TFDateSplit[2];
+        //         const TTDateSplit = ToDate.split('/');
+        //         var newtodate = TTDateSplit[1] + "/" + TTDateSplit[0] + "/" + TTDateSplit[2];
+        //         const TfromDate = new Date(newfromdate);
+        //         const TToDate = new Date(newtodate);
+        //         if (TfromDate.getTime() > TToDate.getTime()) {
+
+        //             showError("FromDate must be less than Todate");
+        //         }
+        //         else {
+        //             CustomerCount = [];
+        //             AppRattingPie = [];
+        //             var formData = new FormData();
+        //             formData.append("FromDate", $("#StartDate").val());
+        //             formData.append("ToDate", $("#EndDate").val());
+        //             /* formData.append("CustomerId", $("#CustomerId").val());*/
+        //             document.getElementById("PieChartCardBody").style.display = "none";
+        //             document.getElementById("ErrorRowAppRatingPie").style.display = "none";
+        //             document.getElementById("TPieChart").style.display = "block";
+        //             document.getElementById("TPieChartDiv").style.display = "block";
+
+        //             $.ajax({
+        //                 type: "POST",
+        //                 data: formData,
+        //                 processData: false,
+        //                 contentType: false,
+        //                 url: "/AppRating/AppRatingPieChart",
+        //                 success: function (data) {
+        //                     document.getElementById("TPieChart").style.display = "none";
+        //                     document.getElementById("TPieChartDiv").style.display = "none";
+        //                     if (data.ListPieChart.length == 0) {
+        //                         document.getElementById("ErrorRowAppRatingPie").style.display = "flex";
+        //                     }
+        //                     else {
+        //                         document.getElementById("PieChartCardBody").style.display = "block";
+        //                         for (var i = 0; i < data.ListPieChart.length; i++) {
+        //                             AppRattingPie.push(data.ListPieChart[i].AppRatting);
+        //                             CustomerCount.push(data.ListPieChart[i].CustomerCount);
+        //                         }
+
+        //                         refreshPieChart();
+        //                         // AppRatingPieChart.init();
+        //                     }
+        //                 },
+        //                 error: function (ex) {
+        //                 }
+        //             });
+
+        //         }
+        //     }
+        // }
+        // function refreshPieChart() {
+        //     AppRatingPieCharts.init();
+        //     AppRatingPChart.updateOptions({
+        //         series: CustomerCount
+        //     });
+        // }
+
+    </script> *@
+    
 }
