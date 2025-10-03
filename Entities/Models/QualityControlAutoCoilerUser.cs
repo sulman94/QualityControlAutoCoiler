@@ -24,5 +24,22 @@ namespace Entities.Models
         public DateTime? CreatedDate { get; set; }
         public long? UpdatedBy { get; set; }
         public DateTime? UpdatedDate { get; set; }
+
+        public string? FullName { get; set; }
+        public string? FatherName { get; set; }
+        public string? CNIC { get; set; }
+        public DateTime? DOB { get; set; }
+        public string? PermanentAddress { get; set; }
+        public string? ResidentialAddress { get; set; }
+        public string? Domicile { get; set; }
+        public string? Qualification { get; set; }
+        public string? WorkExperience { get; set; }
+        public DateTime? JoiningDate { get; set; }
+        public DateTime? LeavingDate { get; set; }
+        public string? ReferenceName { get; set; }
+        public string? Remarks { get; set; }
+        public string? BankName { get; set; }
+        public string? AccountTitle { get; set; }
+        public string? AccountNumber { get; set; }
     }
 }

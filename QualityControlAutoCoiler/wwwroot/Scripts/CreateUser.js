@@ -1,4 +1,8 @@
-﻿
+﻿$(document).ready(function () {
+    $("#CNIC").on("keyup", function () {
+        AddDashesToCnicField(this);
+    });
+});
 $(document).on("change", ".uploadProfileInput", function () {
     
     var triggerInput = this;
@@ -88,4 +92,26 @@ function CreateUser() {
     else {
 
     }
+}
+function AddDashesToCnicField(input) {
+    let Cnic = input.value.replace(/[^0-9]/g, ''); // Remove non-numeric characters
+
+    if (Cnic.length > 13) {
+        Cnic = Cnic.substring(0, 13);
+    }
+
+    let formattedCnic = '';
+    if (Cnic.length > 5) {
+        formattedCnic += Cnic.substring(0, 5) + '-';
+    } else {
+        formattedCnic += Cnic;
+    }
+    if (Cnic.length > 12) {
+        formattedCnic += Cnic.substring(5, 12) + '-';
+        formattedCnic += Cnic.substring(12, 13);
+    } else if (Cnic.length > 5) {
+        formattedCnic += Cnic.substring(5);
+    }
+
+    input.value = formattedCnic;
 }

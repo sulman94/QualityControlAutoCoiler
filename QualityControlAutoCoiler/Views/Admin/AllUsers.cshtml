@@ -10,10 +10,13 @@
 <!-- BEGIN : Main Content-->
 <div class="main-content">
     <div class="content-wrapper">
-        <div class="row">
-            <div class="col-sm-12">
-                <div class="content-header">ALL USERS</div>
-                <p class="content-sub-header">List of all the users of portal</p>
+        <div class="row d-flex align-items-center pt-3">
+            <div class="col-sm-12 col-md-6">
+                <div class="content-header m-0">ALL USERS</div>
+                <p class="content-sub-header m-0">List of all employees</p>
+            </div>
+            <div class="col-sm-12 col-md-6 text-right">
+                <button id="AddUser" type="button" class="btn btn-outline-success m-0" onclick="location.href='@Url.Action("CreateUser", "Admin")'"><i class="fa fa-plus-circle"></i> Add Users</button>
             </div>
         </div>
         <div class="card">

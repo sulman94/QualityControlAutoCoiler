@@ -44,11 +44,31 @@ namespace Services.Services
                 FirstName = user.FirstName,
                 LastName = user.LastName,
                 Email = user.Email,
-                UserName = user.FirstName + user.LastName,
+                UserName = user.UserName,
                 Status = 1,
                 CreatedDate = DateTime.Now,
                 RoleTemplateID = user.RoleTemplateID,
-                CreatedBy = user.CreatedBy
+                CreatedBy = user.CreatedBy,
+                EmailConfirmed = true,
+                NormalizedUserName = user.UserName?.ToUpper(),
+                PhoneNumber = user.MobileNo,
+                AccountNumber = user.AccountNumber,
+                AccountTitle = user.AccountTitle,
+                BankName = user.BankName,
+                CNIC = user.CNIC,
+                DOB = user.DOB,
+                Domicile = user.Domicile,
+                FatherName= user.FatherName,
+                FullName = user.FullName,
+                JoiningDate = user.JoiningDate,
+                LeavingDate = user.LeavingDate,
+                LockoutEnabled = true,
+                PermanentAddress = user.PermanentAddress,
+                Qualification = user.Qualification,
+                ReferenceName = user.ReferenceName,
+                ResidentialAddress = user.ResidentialAddress,
+                Remarks = user.Remarks,
+                WorkExperience = user.WorkExperience
             };
             var result = await _userManager.CreateAsync(xUser, user.Password);
             if (result.Succeeded)
@@ -59,7 +79,6 @@ namespace Services.Services
             else
             {
                 string message = "";
-
                 foreach (var error in result.Errors)
                 {
                     message += error.Description;

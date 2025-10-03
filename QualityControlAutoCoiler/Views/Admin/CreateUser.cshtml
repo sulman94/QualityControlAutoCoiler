@@ -19,72 +19,161 @@
                         <div class="card-body register-img">
                             <form class="form" id="FrmCreateUser" method="post">
                                 <div class="form-body">
-                                    <div class="usr-det">
-                                        <div class="usr-pic">
-                                            <div class="profile-pic-wrapper">
-                                                <div class="pic-holder">
-                                                    <!-- uploaded pic shown here -->
-                                                    <img id="profilePic" class="pic" src="">
+                                    <h6 style="font-weight:bold">Employee Details</h6>
+                                    <div class="row">
+                                        <div class="form-group col-md-8 col-sm-12"></div>
+                                        <div class="form-group col-md-2 col-sm-12">
+                                        <div class="usr-det">
+                                            <div class="usr-pic">
+                                                <div class="profile-pic-wrapper">
+                                                    <div class="pic-holder">
+                                                        <!-- uploaded pic shown here -->
+                                                        <img id="profilePic" class="pic" src="" height="130", width="100">
 
-                                                    <label for="newProfilePhoto" class="upload-file-block mb-0">
-                                                        <div class="text-center">
-                                                            <div class="mb-2">
-                                                                <i class="fa fa-camera fa-2x"></i>
+                                                        <label for="newProfilePhoto" class="upload-file-block mb-0">
+                                                            <div class="text-center">
+                                                                <div class="mb-2">
+                                                                    <i class="fa fa-camera fa-2x"></i>
+                                                                </div>
+                                                                <div class="text-uppercase">
+                                                                    Update <br /> Profile Photo
+                                                                </div>
                                                             </div>
-                                                            <div class="text-uppercase">
-                                                                Update <br /> Profile Photo
-                                                            </div>
-                                                        </div>
-                                                    </label>
-                                                    <Input class="uploadProfileInput" type="file" name="profile_pic" id="newProfilePhoto" accept="image/*" style="display: none;" />
+                                                        </label>
+                                                        <Input class="uploadProfileInput" type="file" name="profile_pic" id="newProfilePhoto" accept="image/*" style="display: none;" />
+                                                    </div>
                                                 </div>
                                             </div>
+                                            <div class="usr-detail">
+                                                <h4> <span></span></h4>
+                                            </div>
                                         </div>
-                                        <div class="usr-detail">
-                                            <h4> <span></span></h4>
                                         </div>
                                     </div>
                                     <div class="row">
-                                        <div class="col-md-3 col-sm-12">
+                                        <div class="form-group col-md-6 col-sm-12">
+                                            @Html.LabelFor(model => model.FullName, htmlAttributes: new { @class = "control-label" })
+                                            @Html.EditorFor(model => model.FullName, new { htmlAttributes = new { @class = "form-control", @maxlength = "200", @minlength = "3" } })
+                                            @Html.ValidationMessageFor(model => model.FullName, "", new { @class = "text-danger" })
+                                        </div>
+                                        <div class="form-group col-md-3 col-sm-12">
+                                            @Html.LabelFor(model => model.FatherName, htmlAttributes: new { @class = "control-label" })
+                                            @Html.EditorFor(model => model.FatherName, new { htmlAttributes = new { @class = "form-control", @maxlength = "200", @minlength = "3" } })
+                                            @Html.ValidationMessageFor(model => model.FatherName, "", new { @class = "text-danger" })
+                                        </div>
+                                        <div class="form-group col-md-3 col-sm-12">
+                                            @Html.LabelFor(model => model.CNIC, htmlAttributes: new { @class = "control-label" })
+                                            @Html.EditorFor(model => model.CNIC, new { htmlAttributes = new { @class = "form-control", @maxlength = "15", @minlength = "15" } })
+                                            @Html.ValidationMessageFor(model => model.CNIC, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="form-group col-md-3 col-sm-12">
+                                            @Html.LabelFor(model => model.DOB, htmlAttributes: new { @class = "control-label" })
+                                            <input type="date" name="DOB" id="DOB" class="form-control pickadate" value="" />
+                                            @Html.ValidationMessageFor(model => model.DOB, "", new { @class = "text-danger" })
+                                        </div>
+                                        <div class="form-group col-md-3 col-sm-12">
+                                            @Html.LabelFor(model => model.MobileNo, htmlAttributes: new { @class = "control-label" })
+                                            @Html.EditorFor(model => model.MobileNo, new { htmlAttributes = new { @class = "form-control", @maxlength = "20", @minlength = "8" } })
+                                            @Html.ValidationMessageFor(model => model.MobileNo, "", new { @class = "text-danger" })
+                                        </div>
+                                        <div class="form-group col-md-3 col-sm-12">
+                                            @Html.LabelFor(model => model.Domicile, htmlAttributes: new { @class = "control-label" })
+                                            @Html.EditorFor(model => model.Domicile, new { htmlAttributes = new { @class = "form-control", @maxlength = "50", @minlength = "4" } })
+                                            @Html.ValidationMessageFor(model => model.Domicile, "", new { @class = "text-danger" })
+                                        </div>
+                                        <div class="form-group col-md-3 col-sm-12">
+                                            @Html.LabelFor(model => model.Qualification, htmlAttributes: new { @class = "control-label" })
+                                            @Html.EditorFor(model => model.Qualification, new { htmlAttributes = new { @class = "form-control", @maxlength = "50", @minlength = "3" } })
+                                            @Html.ValidationMessageFor(model => model.Qualification, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="form-group col-md-12 col-sm-12">
+                                            @Html.LabelFor(model => model.PermanentAddress, htmlAttributes: new { @class = "control-label" })
+                                            @Html.EditorFor(model => model.PermanentAddress, new { htmlAttributes = new { @class = "form-control", @maxlength = "150", @minlength = "3" } })
+                                            @Html.ValidationMessageFor(model => model.PermanentAddress, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="form-group col-md-12 col-sm-12">
+                                            @Html.LabelFor(model => model.ResidentialAddress, htmlAttributes: new { @class = "control-label" })
+                                            @Html.EditorFor(model => model.ResidentialAddress, new { htmlAttributes = new { @class = "form-control", @maxlength = "150", @minlength = "3" } })
+                                            @Html.ValidationMessageFor(model => model.ResidentialAddress, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="form-group col-md-3 col-sm-12">
+                                            @Html.LabelFor(model => model.WorkExperience, htmlAttributes: new { @class = "control-label" })
+                                            @Html.EditorFor(model => model.WorkExperience, new { htmlAttributes = new { @class = "form-control", @maxlength = "20", @minlength = "1" } })
+                                            @Html.ValidationMessageFor(model => model.WorkExperience, "", new { @class = "text-danger" })
+                                        </div>
+                                        <div class="form-group col-md-3 col-sm-12">
+                                            @Html.LabelFor(model => model.ReferenceName, htmlAttributes: new { @class = "control-label" })
+                                            @Html.EditorFor(model => model.ReferenceName, new { htmlAttributes = new { @class = "form-control", @maxlength = "20", @minlength = "1" } })
+                                            @Html.ValidationMessageFor(model => model.ReferenceName, "", new { @class = "text-danger" })
+                                        </div>
+                                        <div class="form-group col-md-3 col-sm-12">
+                                            @Html.LabelFor(model => model.JoiningDate, htmlAttributes: new { @class = "control-label" })
+                                            <input type="date" name="JoiningDate" id="JoiningDate" class="form-control pickadate" value="" />
+                                            @Html.ValidationMessageFor(model => model.JoiningDate, "", new { @class = "text-danger" })
+                                        </div>
+                                        <div class="form-group col-md-3 col-sm-12">
+                                            @Html.LabelFor(model => model.LeavingDate, htmlAttributes: new { @class = "control-label" })
+                                            <input type="date" name="LeavingDate" id="LeavingDate" class="form-control pickadate" value="" />
+                                            @Html.ValidationMessageFor(model => model.LeavingDate, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="form-group col-md-12 col-sm-12">
+                                            @Html.LabelFor(model => model.Remarks, htmlAttributes: new { @class = "control-label" })
+                                            @Html.EditorFor(model => model.Remarks, new { htmlAttributes = new { @class = "form-control", @maxlength = "250" } })
+                                            @Html.ValidationMessageFor(model => model.Remarks, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                    <hr />
+                                    <h6 style="font-weight:bold">Bank Details</h6>
+                                    <div class="row">
+                                        <div class="form-group col-md-4 col-sm-12">
+                                            @Html.LabelFor(model => model.BankName, htmlAttributes: new { @class = "control-label" })
+                                            @Html.EditorFor(model => model.BankName, new { htmlAttributes = new { @class = "form-control", @maxlength = "200", @minlength = "3" } })
+                                            @Html.ValidationMessageFor(model => model.BankName, "", new { @class = "text-danger" })
+                                        </div>
+                                        <div class="form-group col-md-4 col-sm-12">
+                                            @Html.LabelFor(model => model.AccountTitle, htmlAttributes: new { @class = "control-label" })
+                                            @Html.EditorFor(model => model.AccountTitle, new { htmlAttributes = new { @class = "form-control", @maxlength = "200", @minlength = "3" } })
+                                            @Html.ValidationMessageFor(model => model.AccountTitle, "", new { @class = "text-danger" })
+                                        </div>
+                                        <div class="form-group col-md-4 col-sm-12">
+                                            @Html.LabelFor(model => model.AccountNumber, htmlAttributes: new { @class = "control-label" })
+                                            @Html.EditorFor(model => model.AccountNumber, new { htmlAttributes = new { @class = "form-control", @maxlength = "15", @minlength = "15" } })
+                                            @Html.ValidationMessageFor(model => model.AccountNumber, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                    <hr />
+                                    <h6 style="font-weight:bold">Employee Access</h6>
+                                    <div class="row">
+                                        <div class="col-md-4 col-sm-12">
                                             <div class="form-group">
                                                 <label>Select Role</label>
                                                 @Html.DropDownList("RoleTemplateID", (IEnumerable<SelectListItem>)ViewBag.Templates, "Please select Role", new { @class = "form-control" })
                                                 @Html.ValidationMessageFor(model => model.RoleTemplateID, "", new { @class = "text-danger" })
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="form-group col-md-6 col-sm-12 mb-2">
-                                            @Html.LabelFor(model => model.FirstName, htmlAttributes: new { @class = "control-label" })
-                                            @Html.EditorFor(model => model.FirstName, new { htmlAttributes = new { @class = "form-control", @maxlength = "200", @minlength = "4" } })
-                                            @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger" })
+                                        <div class="form-group col-md-4 col-sm-12 mb-2">
+                                            @Html.LabelFor(model => model.UserName, htmlAttributes: new { @class = "control-label" })
+                                            @Html.EditorFor(model => model.UserName, new { htmlAttributes = new { @class = "form-control", @maxlength = "200", @minlength = "4" } })
+                                            @Html.ValidationMessageFor(model => model.UserName, "", new { @class = "text-danger" })
                                         </div>
-                                        <div class="form-group col-md-6 col-sm-12 mb-2">
-                                            @Html.LabelFor(model => model.LastName, htmlAttributes: new { @class = "control-label" })
-                                            @Html.EditorFor(model => model.LastName, new { htmlAttributes = new { @class = "form-control", @maxlength = "200", @minlength = "4" } })
-                                            @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger" })
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="form-group col-md-6 col-sm-12 mb-2">
-                                            @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label" })
-                                            @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control", @maxlength = "200", @minlength = "4" } })
-                                            @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="form-group col-md-6 col-sm-12 mb-2">
+                                        <div class="form-group col-md-4 col-sm-12 mb-2">
                                             @Html.LabelFor(model => model.Password, htmlAttributes: new { @class = "control-label" })
                                             @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control", @maxlength = "10", @minlength = "4" } })
                                             @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
                                         </div>
-                                        <div class="form-group col-md-6 col-sm-12 mb-2">
-                                            @Html.LabelFor(model => model.ConfirmPassword, htmlAttributes: new { @class = "control-label" })
-                                            @Html.EditorFor(model => model.ConfirmPassword, new { htmlAttributes = new { @class = "form-control", @maxlength = "10", @minlength = "4" } })
-                                            @Html.ValidationMessageFor(model => model.ConfirmPassword, "", new { @class = "text-danger" })
-                                        </div>
                                     </div>
-
+                                  
+                                    
 
                                 </div>
                                 <div class="form-actions right">

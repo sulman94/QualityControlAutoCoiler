@@ -53,7 +53,7 @@ namespace ProjectX.Areas.Identity.Pages.Account
             [Required]
             //[EmailAddress]
             [Display(Name = "Username/Email")]
-            public string Email { get; set; }
+            public string UserName { get; set; }
 
             [Required]
             [DataType(DataType.Password)]
@@ -87,10 +87,10 @@ namespace ProjectX.Areas.Identity.Pages.Account
                 // This doesn't count login failures towards account lockout
                 // To enable password failures to trigger account lockout, set lockoutOnFailure: true
                 QualityControlAutoCoilerUser xUser;
-                if (Input.Email.Contains("@"))
-                    xUser = await _userManager.FindByEmailAsync(Input.Email);
+                if (Input.UserName.Contains("@"))
+                    xUser = await _userManager.FindByNameAsync(Input.UserName);
                 else
-                    xUser = await _userManager.FindByNameAsync(Input.Email);
+                    xUser = await _userManager.FindByNameAsync(Input.UserName);
                 if (xUser == null)
                 {
                     ModelState.AddModelError(string.Empty, "Invalid login attempt.");
