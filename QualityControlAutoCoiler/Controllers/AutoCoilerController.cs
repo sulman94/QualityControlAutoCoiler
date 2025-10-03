@@ -55,7 +55,7 @@ namespace ProjectX.Controllers
         [CheckSessionAndUserPermission]
         public async Task<IActionResult> Entry()
         {
-            await SetBiltyDropdowns();
+            await SetDropdowns();
             return View();
         }
         [CheckSessionAndUserPermission]
@@ -167,7 +167,7 @@ namespace ProjectX.Controllers
         //        return new JsonResult(new { success = false, message = "Model Invalid", Data = "Model Invalid" });
         //    }
         //}
-        private async Task SetBiltyDropdowns()
+        private async Task SetDropdowns()
         {
             var machines = await _machines.MachineDropdownCall();
             var machineslist = new SelectList(machines.Data, "Id", "Value");
