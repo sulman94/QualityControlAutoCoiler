@@ -7,20 +7,20 @@ namespace Entities.ViewModels
     public class AppUser
     {
         public long UserId { get; set; }
-        [Required]
-        [Display(Name = "First Name")]
-        public string FirstName { get; set; }
+        //[Required]
+        //[Display(Name = "First Name")]
+        //public string FirstName { get; set; }
 
         [Display(Name = "User Name")]
         public string UserName { get; set; }
 
-        [Required]
-        [Display(Name = "Last Name")]
-        public string LastName { get; set; }
-        [Required]
-        [StringLength(100, ErrorMessage = "Email not valid")]
-        [DataType(DataType.EmailAddress)]
-        public string Email { get; set; }
+        //[Required]
+        //[Display(Name = "Last Name")]
+        //public string LastName { get; set; }
+        //[Required]
+        //[StringLength(100, ErrorMessage = "Email not valid")]
+        //[DataType(DataType.EmailAddress)]
+        //public string Email { get; set; }
         [Required]
         [DataType(DataType.Password)]
         [Display(Name = "Password")]

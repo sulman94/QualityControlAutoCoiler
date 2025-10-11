@@ -11,7 +11,7 @@
     <None Remove="Reports\Report - Copy (2).rdlc" />
     <None Remove="Reports\VoucherReport.rdlc" />
   </ItemGroup>
-
+ 
   <ItemGroup>
     <Content Include="Reports\VoucherReport.rdlc">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

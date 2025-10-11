@@ -5,8 +5,8 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using ProjectX.Helper;
 using Services.Interfaces;
 using Services.Models;
-using Services.Services;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace ProjectX.Controllers
@@ -99,8 +99,17 @@ namespace ProjectX.Controllers
             }
             else
             {
-                return new JsonResult(new { success = false, message = "Model Invalid", Data = "Model Invalid" });
+                var errors = ModelState
+                    .Where(ms => ms.Value.Errors.Count > 0)
+                    .Select(ms => new
+                    {
+                        Field = ms.Key,
+                        Errors = ms.Value.Errors.Select(e => e.ErrorMessage).ToList()
+                    });
+
+                return new JsonResult(new { success = false, message = "Model Invalid", errors });
             }
+
         }
         [CheckSessionExpiry]
 
